@@ -4,7 +4,7 @@
   'use strict';
 
   // localStorage keys (the app's "tables")
-  const LS = { catalog: 'gp_catalog', lists: 'gp_lists', current: 'gp_current' };
+  const LS = { catalog: 'gp_catalog', lists: 'gp_lists', current: 'gp_current', months: 'gp_months' };
 
   const UNITS = ['kg', 'g', 'L', 'ml', 'dozen', 'pcs', 'packet', 'bottle', 'can', 'bunch', 'loaf'];
 

@@ -111,7 +111,12 @@
     V.toast(name + ' updated');
   }
 
-  $('#monthInput').addEventListener('change', (e) => { store.current.month = e.target.value; store.persistCurrent(); });
+  $('#monthInput').addEventListener('change', (e) => {
+    store.switchMonth(e.target.value);
+    editingId = null;
+    renderList();
+    V.toast(GP.utils.monthLong(e.target.value));
+  });
   $('#storeInput').addEventListener('input', (e) => { store.current.store = e.target.value; store.persistCurrent(); });
 
   /* ---- save / load ---- */
@@ -134,7 +139,21 @@
     renderList();
     renderSaved();
     V.toast('Saved “' + name + '”');
+    syncPush(true);
   }
+
+  /* ---- cloud sync (data committed to the repo, retrievable on any device) ---- */
+  function syncPush(promptForToken) {
+    if (!GP.sync.hasToken()) {
+      if (!promptForToken) return;
+      const t = prompt('Paste a GitHub token (repo scope) to sync your lists across devices.\nLeave blank to keep data on this device only:');
+      if (!t || !t.trim()) return;
+      GP.sync.setToken(t.trim());
+    }
+    GP.sync.push().then((ok) => { if (ok) V.toast('Synced to cloud ✓'); });
+  }
+  // Autosave to the repo every three minutes (only once a token is set).
+  setInterval(() => GP.sync.push(), 180000);
 
   function onLoad(name) {
     store.load(name);
@@ -173,4 +192,7 @@
   V.initStaticSelects();
   V.refreshDatalist(store);
   renderList();
+
+  // Pull the latest repo copy on open; reload to pick it up if it's newer.
+  GP.sync.pull().then((changed) => { if (changed) location.reload(); });
 })(window.GP = window.GP || {});
