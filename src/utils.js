@@ -30,5 +30,20 @@
   /** Escape user-supplied text for safe interpolation into innerHTML. */
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  GP.utils = { $, read, write, money, uid, ucFirst, esc };
+  const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  /** 'YYYY-MM' -> compact "Jun '26" (for chart ticks / chips). */
+  const monthLabel = (m) => {
+    const [y, mo] = String(m).split('-');
+    return (MONTHS_SHORT[(+mo) - 1] || m) + " '" + String(y).slice(2);
+  };
+
+  /** 'YYYY-MM' -> full "June 2026" (for headings). */
+  const monthLong = (m) => {
+    const [y, mo] = String(m).split('-');
+    return (MONTHS_LONG[(+mo) - 1] || m) + ' ' + y;
+  };
+
+  GP.utils = { $, read, write, money, uid, ucFirst, esc, monthLabel, monthLong };
 })(window.GP = window.GP || {});

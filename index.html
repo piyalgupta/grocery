@@ -76,7 +76,7 @@
         <h2 class="serif">Add to basket</h2>
         <div class="fld item-fld">
           <label>Item</label>
-          <input list="catalogList" id="itemName" placeholder="Type or pick an item…" autocomplete="off" />
+          <input type="text" list="catalogList" id="itemName" placeholder="Type or pick an item…" autocomplete="off" />
           <datalist id="catalogList"></datalist>
         </div>
         <div class="add-grid">
@@ -115,7 +115,39 @@
     </section>
 
     <!-- DASHBOARD VIEW -->
-    <section id="view-dashboard" class="view">
+    <section id="view-dashboard" class="view dash">
+      <!-- HERO: month-on-month spend, the headline of the dashboard -->
+      <div class="card hero-card">
+        <div class="hero-top">
+          <div class="hero-meta">
+            <span class="eyebrow">Month-on-month spend</span>
+            <strong class="hero-month serif" id="heroMonth">Month-on-month</strong>
+            <span class="hero-sub">Latest month vs the two before it</span>
+          </div>
+          <div class="hero-amount-wrap">
+            <span class="hero-amount-cap">This month</span>
+            <strong class="hero-amount mono" id="heroAmount">₹0</strong>
+          </div>
+        </div>
+        <div class="hero-body" id="heroBody">
+          <div class="hero-chart-box"><canvas id="momChart"></canvas></div>
+          <div class="hero-deltas" id="heroDeltas"></div>
+        </div>
+        <p class="hero-empty" id="heroEmpty" hidden>Save at least two monthly lists to unlock your month-on-month trend.</p>
+      </div>
+
+      <!-- INSIGHTS: smart suggestions + what each chart is telling you -->
+      <div class="card insights-card">
+        <div class="insights-col">
+          <h2 class="serif small-h">Smart suggestions</h2>
+          <div id="suggestions" class="sug-list"></div>
+        </div>
+        <div class="insights-col">
+          <h2 class="serif small-h">What your charts say</h2>
+          <div id="takeaways" class="takeaway-list"></div>
+        </div>
+      </div>
+
       <div class="kpi-grid">
         <div class="kpi kpi-green"><span class="kpi-label">This month</span><strong id="kpiSpend">₹0</strong></div>
         <div class="kpi kpi-amber"><span class="kpi-label">Items planned</span><strong id="kpiItems">0</strong></div>
@@ -125,18 +157,13 @@
         <div class="kpi kpi-blue"><span class="kpi-label">Lifetime spend</span><strong id="kpiLifetime">₹0</strong></div>
       </div>
 
-      <div class="card sug-card">
-        <h2 class="serif">Smart suggestions</h2>
-        <div id="suggestions" class="sug-list"></div>
-      </div>
-
-      <div class="chart-grid">
-        <div class="card"><h2 class="serif small-h">Monthly spend trend</h2><div class="chart-box"><canvas id="trendChart"></canvas></div></div>
-        <div class="card"><h2 class="serif small-h">Spend by category</h2><div class="chart-box"><canvas id="catChart"></canvas></div></div>
-        <div class="card wide"><h2 class="serif small-h">Category spend over time</h2><p class="chart-note">How your basket mix shifts month to month</p><div class="chart-box tall"><canvas id="catTrendChart"></canvas></div></div>
-        <div class="card wide"><h2 class="serif small-h">Price trends · top recurring items</h2><p class="chart-note">Unit price each month — spot items creeping up</p><div class="chart-box tall"><canvas id="priceChart"></canvas></div></div>
-        <div class="card"><h2 class="serif small-h">Buying habits · most frequent</h2><p class="chart-note">Months each item appears in</p><div class="chart-box tall"><canvas id="freqChart"></canvas></div></div>
-        <div class="card"><h2 class="serif small-h">Top consumed items</h2><p class="chart-note">Total quantity bought</p><div class="chart-box tall"><canvas id="topChart"></canvas></div></div>
+      <div class="chart-grid charts-6">
+        <div class="card"><h2 class="serif small-h">Spend by category</h2><p class="chart-note">Where the budget splits</p><div class="chart-box"><canvas id="catChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Where your money goes</h2><p class="chart-note">Top items by total spend</p><div class="chart-box"><canvas id="spendChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Biggest price movers</h2><p class="chart-note">Unit-price change · first → latest month</p><div class="chart-box"><canvas id="moverChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Category spend over time</h2><p class="chart-note">How your basket mix shifts</p><div class="chart-box"><canvas id="catTrendChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Buying habits · most frequent</h2><p class="chart-note">Months each item appears in</p><div class="chart-box"><canvas id="freqChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Top consumed items</h2><p class="chart-note">Total quantity bought</p><div class="chart-box"><canvas id="topChart"></canvas></div></div>
       </div>
     </section>
 

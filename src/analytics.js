@@ -42,10 +42,98 @@
     return { byCat, byMonth, countByMonth, byItem, byCatMonth, itemByMonth };
   }
 
+  /**
+   * Month-on-month spend comparison for the dashboard hero.
+   * Takes `byMonth` (spend per month) and returns the latest month, how it
+   * compares to the previous month and to two months ago, plus a short context
+   * series (up to the last 6 months) for the trend bars.
+   *
+   * Each `change` is { diff, pct, dir } where dir is 'up' | 'down' | 'flat'.
+   */
+  function monthOnMonth(byMonth) {
+    const months = Object.keys(byMonth).sort();
+    const n = months.length;
+    const at = (k) => (n - k >= 0 ? { month: months[n - k], spend: byMonth[months[n - k]] } : null);
+    const current = at(1), prev = at(2), prev2 = at(3);
+
+    const change = (cur, base) => {
+      if (!cur || !base) return null;
+      const diff = cur.spend - base.spend;
+      const pct = base.spend ? Math.round((diff / base.spend) * 100) : (cur.spend ? 100 : 0);
+      return { diff, pct, dir: diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat' };
+    };
+
+    const trend = months.slice(-6);
+    return {
+      months: trend,
+      series: trend.map((m) => byMonth[m]),
+      currentIdx: trend.length - 1,
+      current, prev, prev2,
+      vsPrev: change(current, prev),
+      vsPrev2: change(current, prev2)
+    };
+  }
+
   /** Average unit price of an item in a given month, or null if not bought. */
   function avgPrice(itemByMonth, name, month) {
     const e = itemByMonth[name] && itemByMonth[name][month];
     return e && e.qty ? e.val / e.qty : null;
+  }
+
+  /**
+   * Per-item unit-price change between its first and latest purchase month.
+   * Returns the biggest movers (up or down) — { name, pct, first, last } —
+   * sorted by magnitude. Drives the "Biggest price movers" chart.
+   */
+  function priceMovers(agg, limit) {
+    const { byItem, itemByMonth } = agg;
+    const out = [];
+    Object.entries(byItem).forEach(([name, d]) => {
+      if (d.months.size < 2) return;
+      const ms = [...d.months].sort();
+      const first = avgPrice(itemByMonth, name, ms[0]);
+      const last = avgPrice(itemByMonth, name, ms[ms.length - 1]);
+      if (first && last && first !== last) {
+        out.push({ name, pct: Math.round(((last - first) / first) * 100), first, last });
+      }
+    });
+    return out.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct)).slice(0, limit || 7);
+  }
+
+  /**
+   * Plain-language readouts of what each chart is showing — the "headline"
+   * behind every graph (top category, biggest spend, fastest-rising price…).
+   * Returns [{ icon, label, text }] for the dashboard insights panel.
+   */
+  function chartInsights(agg) {
+    const { money } = GP.utils;
+    const { byCat, byItem, byMonth } = agg;
+    const out = [];
+    if (!Object.keys(byMonth).length) return out;
+
+    const catEntries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+    const catTotal = catEntries.reduce((s, c) => s + c[1], 0) || 1;
+    if (catEntries.length) {
+      const [c, v] = catEntries[0];
+      out.push({ icon: 'wallet', label: 'Top category', text: `${c} — ${money(v)} (${Math.round((v / catTotal) * 100)}% of spend)` });
+    }
+
+    const topVal = Object.entries(byItem).sort((a, b) => b[1].val - a[1].val)[0];
+    if (topVal) out.push({ icon: 'trendingUp', label: 'Biggest spend', text: `${topVal[0]} — ${money(topVal[1].val)} total` });
+
+    const freq = Object.entries(byItem).sort((a, b) => b[1].months.size - a[1].months.size)[0];
+    if (freq && freq[1].months.size > 1) out.push({ icon: 'repeat', label: 'Most frequent', text: `${freq[0]} — bought in ${freq[1].months.size} months` });
+
+    const topQty = Object.entries(byItem).sort((a, b) => b[1].qty - a[1].qty)[0];
+    if (topQty) out.push({ icon: 'sparkles', label: 'Highest volume', text: `${topQty[0]} — ${Math.round(topQty[1].qty * 100) / 100} ${topQty[1].unit}` });
+
+    const movers = priceMovers(agg);
+    const up = movers.find((m) => m.pct > 0);
+    if (up) out.push({ icon: 'flame', label: 'Fastest-rising price', text: `${up.name} — +${up.pct}% (${money(up.first)} → ${money(up.last)})` });
+    const down = movers.find((m) => m.pct < 0);
+    if (down) out.push({ icon: 'check', label: 'Best price drop', text: `${down.name} — ${down.pct}% (${money(down.first)} → ${money(down.last)})` });
+
+    return out;
   }
 
   /**
@@ -113,5 +201,5 @@
     return { empty: false, items: out.slice(0, 6) };
   }
 
-  GP.analytics = { listTotal, aggregate, avgPrice, suggestions };
+  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth, priceMovers, chartInsights };
 })(window.GP = window.GP || {});
