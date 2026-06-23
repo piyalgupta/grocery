@@ -27,5 +27,8 @@
   /** Title-case each word (e.g. "toor dal" -> "Toor Dal"). */
   const ucFirst = (s) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 
-  GP.utils = { $, read, write, money, uid, ucFirst };
+  /** Escape user-supplied text for safe interpolation into innerHTML. */
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  GP.utils = { $, read, write, money, uid, ucFirst, esc };
 })(window.GP = window.GP || {});

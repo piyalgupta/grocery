@@ -33,15 +33,21 @@
   /**
    * Build optimization suggestions from an aggregate.
    * Returns { empty, items } where `empty` means there's no saved history yet.
-   * Strings prefixed with "✅||" are positive/"good" tips (the view styles them).
+   * Each item is { icon, good, text }: `icon` names a glyph in constants.ICONS
+   * and `good` flags positive tips (the view styles them differently).
    */
   function suggestions(lists, agg) {
     const all = Object.values(lists);
-    if (all.length === 0) return { empty: true, items: [] };
+    const { money } = GP.utils;
+    const out = [];
+
+    if (all.length === 0) {
+      out.push({ icon: 'trendingUp', good: true, text: 'Save a few monthly lists to unlock consumption insights and savings tips.' });
+      return { empty: true, items: out };
+    }
 
     const { byItem, byMonth } = agg;
     const months = Object.keys(byMonth).sort();
-    const out = [];
 
     // 1) frequently repeated items -> bulk buy (top 2 by spend)
     Object.entries(byItem)
@@ -49,7 +55,7 @@
       .sort((a, b) => b[1].val - a[1].val)
       .slice(0, 2)
       .forEach(([name, d]) =>
-        out.push(`🔁 <b>${name}</b> bought in ${d.months.size} months — consider buying in bulk to cut cost.`));
+        out.push({ icon: 'repeat', good: false, text: `${name} bought in ${d.months.size} months — consider buying in bulk to cut cost.` }));
 
     // 2) month-over-month spend change
     if (months.length >= 2) {
@@ -57,17 +63,17 @@
       const last = byMonth[months[months.length - 1]];
       const diff = last - prev;
       const pct = prev ? Math.round((diff / prev) * 100) : 0;
-      if (diff > 0) out.push(`📈 Spend rose ${pct}% (${GP.utils.money(diff)}) vs previous month — review high-cost categories.`);
-      else if (diff < 0) out.push(`✅||Nice! Spend dropped ${Math.abs(pct)}% (${GP.utils.money(-diff)}) vs last month — keep it up.`);
+      if (diff > 0) out.push({ icon: 'trendingUp', good: false, text: `Spend rose ${pct}% (${money(diff)}) vs previous month — review high-cost categories.` });
+      else if (diff < 0) out.push({ icon: 'check', good: true, text: `Spend dropped ${Math.abs(pct)}% (${money(-diff)}) vs last month — keep it up.` });
     }
 
     // 3) biggest spend item
     const topVal = Object.entries(byItem).sort((a, b) => b[1].val - a[1].val)[0];
-    if (topVal) out.push(`💰 <b>${topVal[0]}</b> is your biggest spend (${GP.utils.money(topVal[1].val)} total) — compare brands or stores.`);
+    if (topVal) out.push({ icon: 'wallet', good: false, text: `${topVal[0]} is your biggest spend (${money(topVal[1].val)} total) — compare brands or stores.` });
 
     // 4) rarely used
     const rare = Object.entries(byItem).filter(([, d]) => d.months.size === 1 && all.length >= 2);
-    if (rare.length) out.push(`🧹 ${rare.slice(0, 3).map((r) => r[0]).join(', ')} bought only once — drop if unused to avoid waste.`);
+    if (rare.length) out.push({ icon: 'sparkles', good: false, text: `${rare.slice(0, 3).map((r) => r[0]).join(', ')} bought only once — drop if unused to avoid waste.` });
 
     return { empty: false, items: out.slice(0, 6) };
   }
