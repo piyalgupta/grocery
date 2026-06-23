@@ -3,6 +3,9 @@
 A clean, mobile-first web app to plan your monthly grocery list, track family
 consumption, get savings suggestions, and export a PDF to send to your store.
 
+A soft **glassmorphism** UI — frosted cards over a pastel aurora background,
+Newsreader + JetBrains Mono type, and crisp line icons.
+
 **No build step, no server** — just open `index.html` (or host it anywhere static).
 
 ## Features
@@ -27,7 +30,8 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 5. Check the **📊 Dashboard** for consumption insights.
 
 ## Tech
-Vanilla HTML/CSS/JS · [Chart.js](https://www.chartjs.org/) ·
+Vanilla HTML/CSS/JS (no framework, no build) · inline SVG icons ·
+[Chart.js](https://www.chartjs.org/) ·
 [jsPDF](https://github.com/parallax/jsPDF) + autotable · `localStorage` for data.
 
 > Data is stored locally in your browser. Use **Save As** to keep monthly
