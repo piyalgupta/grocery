@@ -150,10 +150,20 @@
       if (!t || !t.trim()) return;
       GP.sync.setToken(t.trim());
     }
-    GP.sync.push().then((ok) => { if (ok) V.toast('Synced to cloud ✓'); });
+    GP.sync.push().then((r) => {
+      if (r === 'pushed') V.toast('Synced to cloud ✓');
+      // A newer copy from another device arrived — reload to show it.
+      else if (r === 'pulled') location.reload();
+    });
   }
-  // Autosave to the repo every three minutes (only once a token is set).
-  setInterval(() => GP.sync.push(), 180000);
+  // Every three minutes, reconcile with the cloud so every device converges on
+  // the newest data: token holders push (adopting a newer remote instead of
+  // clobbering it), read-only devices just pull. Reload if the local copy was
+  // replaced by a fresher one.
+  setInterval(() => {
+    Promise.resolve(GP.sync.hasToken() ? GP.sync.push() : GP.sync.pull())
+      .then((r) => { if (r === true || r === 'pulled') location.reload(); });
+  }, 180000);
 
   function onLoad(name) {
     store.load(name);
