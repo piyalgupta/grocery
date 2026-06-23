@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782239739072,
+  "updatedAt": 1782239827936,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -202,8 +202,27 @@
       "name": "2026-07 Groceries",
       "month": "2026-07",
       "store": "",
-      "items": [],
-      "savedAt": "2026-06-23T18:35:39.072Z"
+      "items": [
+        {
+          "id": "86xqz8a",
+          "name": "Amsatter Aachaar",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 140,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "b5trwkf",
+          "name": "Chicken",
+          "qty": 1,
+          "unit": "kg",
+          "price": 229,
+          "category": "Dairy",
+          "bought": false
+        }
+      ],
+      "savedAt": "2026-06-23T18:37:07.936Z"
     }
   },
   "gp_months": {
@@ -217,13 +236,51 @@
       "name": "2026-07 Groceries",
       "month": "2026-07",
       "store": "",
-      "items": []
+      "items": [
+        {
+          "id": "86xqz8a",
+          "name": "Amsatter Aachaar",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 140,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "b5trwkf",
+          "name": "Chicken",
+          "qty": 1,
+          "unit": "kg",
+          "price": 229,
+          "category": "Dairy",
+          "bought": false
+        }
+      ]
     }
   },
   "gp_current": {
     "name": "2026-07 Groceries",
     "month": "2026-07",
     "store": "",
-    "items": []
+    "items": [
+      {
+        "id": "86xqz8a",
+        "name": "Amsatter Aachaar",
+        "qty": 1,
+        "unit": "bottle",
+        "price": 140,
+        "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "b5trwkf",
+        "name": "Chicken",
+        "qty": 1,
+        "unit": "kg",
+        "price": 229,
+        "category": "Dairy",
+        "bought": false
+      }
+    ]
   }
 }
