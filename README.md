@@ -30,5 +30,21 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 Vanilla HTML/CSS/JS · [Chart.js](https://www.chartjs.org/) ·
 [jsPDF](https://github.com/parallax/jsPDF) + autotable · `localStorage` for data.
 
+## Architecture
+Still **zero build** — the code is split into small, single-responsibility
+scripts under `src/`, each attaching to a shared `window.GP` namespace and
+loaded in dependency order (so it keeps working from a plain `file://` open):
+
+| File | Responsibility |
+|------|----------------|
+| `constants.js` | Config & seed data (units, categories, palette, seed catalog). |
+| `utils.js` | Generic helpers — DOM lookup, safe storage read/write, formatting. |
+| `store.js` | Model + persistence. Owns catalog/lists/current and all `localStorage` writes. |
+| `analytics.js` | Pure domain logic — totals, aggregation, suggestions (no DOM). |
+| `charts.js` | Chart.js wrapper with an instance registry. |
+| `pdf.js` | jsPDF order-sheet export. |
+| `views.js` | Render layer — state → DOM, no state mutation. |
+| `app.js` | Controller — wires events to the store and orchestrates re-renders. |
+
 > Data is stored locally in your browser. Use **Save As** to keep monthly
 > snapshots; export PDFs for sharing.
