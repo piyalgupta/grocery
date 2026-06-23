@@ -307,7 +307,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .hero-amount-cap{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
 .hero-amount{font-size:2.3rem; font-weight:600; color:var(--accent-deep); line-height:1}
 .hero-body{display:grid; grid-template-columns:1fr; gap:1.1rem}
-.hero-chart-box{height:210px}
+.hero-chart-box{height:210px; min-width:0}
 .hero-deltas{display:grid; grid-template-columns:1fr 1fr; gap:.85rem}
 .delta-card{
   display:flex; flex-direction:column; gap:.25rem; padding:.85rem 1rem;
@@ -328,7 +328,10 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .chart-grid{display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .chart-grid .wide{grid-column:1/-1}
 .chart-note{margin:.15rem 0 .7rem; font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:var(--muted)}
-.chart-box{height:230px}
+.chart-box{height:230px; min-width:0}
+/* Canvases are sized manually (responsive:false); clamp them so a stale width
+   attribute can never push its grid track wider than the column. */
+.chart-box canvas,.hero-chart-box canvas{display:block; max-width:100%}
 
 /* ---------- Desktop: pack the dashboard into one view ---------- */
 @media(min-width:1000px){
@@ -336,7 +339,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
   .dash .chart-grid{margin-bottom:0}
   .dash .card{padding:1.1rem 1.3rem}
   .dash .hero-top{margin-bottom:.8rem}
-  .dash .hero-body{grid-template-columns:1.7fr 1fr; align-items:stretch}
+  .dash .hero-body{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); align-items:stretch}
   .dash .hero-chart-box{height:188px}
   .dash .hero-deltas{grid-template-columns:1fr; align-content:center; gap:.7rem}
   .dash .insights-card{grid-template-columns:1fr 1fr; gap:1.6rem}
@@ -347,7 +350,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
   .dash .kpi-grid{gap:.8rem}
   .dash .kpi{padding:.75rem 1rem}
   .dash .kpi strong{font-size:1.3rem}
-  .dash .chart-grid{gap:1rem; grid-template-columns:repeat(3,1fr)}
+  .dash .chart-grid{gap:1rem; grid-template-columns:repeat(3,minmax(0,1fr))}
   .dash .chart-box{height:152px}
   .dash .chart-note{margin:.1rem 0 .5rem}
 }
