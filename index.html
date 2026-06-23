@@ -126,6 +126,15 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-<script src="app.js"></script>
+
+<!-- App modules — plain scripts (no build step), loaded in dependency order -->
+<script src="src/constants.js"></script>
+<script src="src/utils.js"></script>
+<script src="src/store.js"></script>
+<script src="src/analytics.js"></script>
+<script src="src/charts.js"></script>
+<script src="src/pdf.js"></script>
+<script src="src/views.js"></script>
+<script src="src/app.js"></script>
 </body>
 </html>
