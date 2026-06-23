@@ -8,10 +8,15 @@
   const { LS, SEED, UNTITLED } = GP.constants;
   const { read, write } = GP.utils;
 
+  // Mark the moment of the latest local change so cloud sync can resolve
+  // "newest wins" between devices.
+  const touch = () => localStorage.setItem('gp_updatedAt', Date.now());
+
   class Store {
     constructor() {
       this.catalog = read(LS.catalog, null) || this._seedCatalog();
       this.lists = read(LS.lists, {});
+      this.months = read(LS.months, {});   // 'YYYY-MM' -> working list snapshot
       this.current = read(LS.current, null) || Store.newList();
     }
 
@@ -32,9 +37,28 @@
     }
 
     /* ---- persistence ---- */
-    persistCurrent() { write(LS.current, this.current); }
-    persistCatalog() { write(LS.catalog, this.catalog); }
-    persistLists() { write(LS.lists, this.lists); }
+    // The working list is always mirrored into its month slot, so switching
+    // months reloads exactly what was last entered for that month.
+    persistCurrent() {
+      this.months[this.current.month] = structuredClone(this.current);
+      write(LS.current, this.current);
+      write(LS.months, this.months);
+      touch();
+    }
+    persistCatalog() { write(LS.catalog, this.catalog); touch(); }
+    persistLists() { write(LS.lists, this.lists); touch(); }
+
+    /** Switch the working list to `month`: reload its saved slot, or start blank. */
+    switchMonth(month) {
+      this.months[this.current.month] = structuredClone(this.current);
+      if (this.months[month]) {
+        this.current = structuredClone(this.months[month]);
+      } else {
+        this.current = Store.newList();
+      }
+      this.current.month = month;
+      this.persistCurrent();
+    }
 
     /* ---- catalog (learning index) ---- */
     lookup(name) { return this.catalog[name]; }

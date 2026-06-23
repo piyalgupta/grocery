@@ -14,6 +14,13 @@ Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
 - **Smart catalog** — pick from the dropdown and the right **unit, category and
   last price auto-fill**. New items you type are remembered automatically.
 - **Last-price memory** — every item always carries its most recent price.
+- **Per-month auto memory** — change the month picker and the working list for
+  that month reloads automatically (past, current or a future month you're
+  planning ahead for); a brand-new month opens blank and saves itself as you type.
+- **Cross-device cloud sync** — data is committed to `data/grocery-data.json`
+  in this repo on every manual save and auto-saved every 3 minutes, so the same
+  lists are retrievable on any device that opens the app. Paste a GitHub token
+  (repo scope) once when prompted on first save to enable writing.
 - **Save / Load / Save As** — store named lists, reload them next month, tweak,
   and save under a new name. Lists live in your browser (your personal repo).
 - **Per-item editing** — edit any cart item in place (name, qty, unit, price,
