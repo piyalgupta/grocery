@@ -134,12 +134,16 @@
     }
   };
 
-  /** Horizontal bar (e.g. top items by qty / frequency). `unit` formats tooltips. */
+  /** Horizontal bar (top items by qty / spend / % change).
+      `opts`: { color | colors[], moneyX, pctX, xTitle, tipLabel }. */
   function bar(id, labels, data, opts) {
     const o = opts || {};
+    const xTicks = o.moneyX ? { callback: (v) => money(v) }
+      : o.pctX ? { callback: (v) => (v > 0 ? '+' : '') + v + '%' }
+      : { precision: 0 };
     render(id, {
       type: 'bar',
-      data: { labels, datasets: [{ data, backgroundColor: o.color || '#3fae5a', borderRadius: 6 }] },
+      data: { labels, datasets: [{ data, backgroundColor: o.colors || o.color || '#3fae5a', borderRadius: 6 }] },
       options: {
         ...baseOpts(), indexAxis: 'y',
         plugins: {
@@ -147,7 +151,7 @@
           tooltip: o.tipLabel ? { callbacks: { label: (c) => ' ' + o.tipLabel(c) } } : undefined
         },
         scales: {
-          x: { beginAtZero: true, grid: { color: GRID }, ticks: o.moneyX ? { callback: (v) => money(v) } : { precision: 0 }, title: o.xTitle ? { display: true, text: o.xTitle, color: '#9aa3b0' } : undefined },
+          x: { beginAtZero: true, grid: { color: GRID, zeroLineColor: GRID }, ticks: xTicks, title: o.xTitle ? { display: true, text: o.xTitle, color: '#9aa3b0' } : undefined },
           y: { grid: { display: false } }
         }
       }

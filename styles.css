@@ -279,6 +279,20 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .sug.good{color:var(--accent-deep)}
 .sug.warn{color:#b3742f}
 
+/* ---------- Insights (suggestions + chart takeaways) ---------- */
+.insights-card{display:grid; grid-template-columns:1fr; gap:1.4rem}
+.insights-col h2{margin-bottom:.85rem}
+.takeaway-list{display:flex; flex-direction:column; gap:.6rem}
+.takeaway{
+  display:flex; gap:.65rem; align-items:flex-start; border-radius:var(--r-sm); padding:.7rem .9rem;
+  background:var(--bg); box-shadow:var(--press-sm);
+}
+.takeaway .tk-ic{flex:none; display:flex; margin-top:.05rem}
+.takeaway .tk-body{display:flex; flex-direction:column; gap:.1rem; min-width:0}
+.tk-label{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.tk-text{font-size:.9rem; color:var(--text)}
+.muted-takeaway{color:var(--faint); font-style:italic; box-shadow:none}
+
 /* ---------- Hero · month-on-month ---------- */
 .hero-card{
   background:
@@ -319,22 +333,23 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 /* ---------- Desktop: pack the dashboard into one view ---------- */
 @media(min-width:1000px){
   .dash .card,.dash .kpi-grid,.dash .chart-grid{margin-bottom:1rem}
-  .dash .sug-card{margin-bottom:0}
+  .dash .chart-grid{margin-bottom:0}
   .dash .card{padding:1.1rem 1.3rem}
   .dash .hero-top{margin-bottom:.8rem}
   .dash .hero-body{grid-template-columns:1.7fr 1fr; align-items:stretch}
   .dash .hero-chart-box{height:188px}
   .dash .hero-deltas{grid-template-columns:1fr; align-content:center; gap:.7rem}
+  .dash .insights-card{grid-template-columns:1fr 1fr; gap:1.6rem}
+  .dash .insights-col h2{margin-bottom:.6rem}
+  .dash .sug,.dash .takeaway{padding:.55rem .8rem}
+  .dash .sug{font-size:.82rem}
+  .dash .sug-list,.dash .takeaway-list{gap:.5rem}
   .dash .kpi-grid{gap:.8rem}
   .dash .kpi{padding:.75rem 1rem}
   .dash .kpi strong{font-size:1.3rem}
   .dash .chart-grid{gap:1rem; grid-template-columns:repeat(3,1fr)}
-  .dash .chart-grid .wide{grid-column:auto}  /* equal 3×2 grid — no full-width rows */
-  .dash .chart-box{height:148px}
+  .dash .chart-box{height:152px}
   .dash .chart-note{margin:.1rem 0 .5rem}
-  .dash .sug-card h2{margin-bottom:.7rem}
-  .dash .sug-list{display:grid; grid-template-columns:1fr 1fr; gap:.6rem}
-  .dash .sug{padding:.6rem .85rem; font-size:.82rem}
 }
 
 /* ---------- Saved ---------- */

@@ -6,7 +6,7 @@
 
   const { $, money, esc, monthLabel, monthLong } = GP.utils;
   const { UNITS, CATS, ICONS, CATMETA } = GP.constants;
-  const { listTotal, aggregate, suggestions, monthOnMonth } = GP.analytics;
+  const { listTotal, aggregate, suggestions, monthOnMonth, priceMovers, chartInsights } = GP.analytics;
 
   /** Build an inline Lucide-style SVG for a named glyph. */
   function icon(name, size, color) {
@@ -201,28 +201,36 @@
     $('#kpiMonthAvg').textContent = money(months.length ? lifetime / months.length : 0);
     $('#kpiLifetime').textContent = money(lifetime);
 
-    // Monthly spend trend + spend-by-category mix
-    GP.charts.line('trendChart', months, months.map((m) => byMonth[m]));
+    // Six square charts (3×2 on desktop) ------------------------------------
+
+    // 1) Spend by category (doughnut) — where the budget splits
     GP.charts.doughnut('catChart', Object.keys(byCat), Object.values(byCat));
 
-    // Category spend over time (stacked) — how the basket mix shifts month to month
+    // 2) Where your money goes — top items by total spend
+    const spend = Object.entries(byItem).sort((a, b) => b[1].val - a[1].val).slice(0, 8);
+    GP.charts.bar('spendChart', spend.map((s) => s[0]), spend.map((s) => Math.round(s[1].val)), {
+      color: '#c0823e', moneyX: true, xTitle: 'Total spend',
+      tipLabel: (c) => money(c.parsed.x)
+    });
+
+    // 3) Biggest price movers — unit-price % change, first → latest month
+    const movers = priceMovers(agg);
+    GP.charts.bar('moverChart', movers.map((m) => m.name), movers.map((m) => m.pct), {
+      colors: movers.map((m) => (m.pct > 0 ? '#d9663f' : '#3fae5a')),
+      pctX: true, xTitle: '% change · first → latest month',
+      tipLabel: (c) => {
+        const m = movers[c.dataIndex];
+        return `${m.pct > 0 ? '+' : ''}${m.pct}%  (${money(m.first)} → ${money(m.last)})`;
+      }
+    });
+
+    // 4) Category spend over time (stacked) — how the basket mix shifts
     const cats = Object.keys(byCat).sort((a, b) => byCat[b] - byCat[a]);
     const series = {};
     cats.forEach((c) => { series[c] = months.map((m) => (byCatMonth[m] && byCatMonth[m][c]) || 0); });
     GP.charts.stackedBar('catTrendChart', months, cats, series);
 
-    // Unit-price trends for the top recurring items — surfaces creeping prices
-    const recurring = Object.entries(byItem)
-      .filter(([, d]) => d.months.size >= 2)
-      .sort((a, b) => b[1].val - a[1].val)
-      .slice(0, 5);
-    const priceSeries = recurring.map(([name]) => ({
-      label: name,
-      data: months.map((m) => GP.analytics.avgPrice(itemByMonth, name, m))
-    }));
-    GP.charts.multiLine('priceChart', months, priceSeries, { money: true });
-
-    // Buying habits — how often each item is purchased (months it appears in)
+    // 5) Buying habits — how often each item is purchased (months it appears in)
     const freq = Object.entries(byItem)
       .sort((a, b) => b[1].months.size - a[1].months.size || b[1].qty - a[1].qty)
       .slice(0, 8);
@@ -231,14 +239,14 @@
       tipLabel: (c) => c.parsed.x + (c.parsed.x === 1 ? ' month' : ' months')
     });
 
-    // Top consumed items by quantity
+    // 6) Top consumed items by quantity
     const top = Object.entries(byItem).sort((a, b) => b[1].qty - a[1].qty).slice(0, 8);
     GP.charts.bar('topChart', top.map((t) => t[0]), top.map((t) => Math.round(t[1].qty * 100) / 100), {
       color: '#3fae5a', xTitle: 'Quantity',
       tipLabel: (c) => (Math.round(c.parsed.x * 100) / 100) + ' ' + (byItem[c.label] ? byItem[c.label].unit : '')
     });
 
-    renderSuggestions(store, agg);
+    renderInsights(store, agg);
   }
 
   /** One delta chip ("vs last month  ▲ 12%  +₹450"), coloured by direction:
@@ -271,6 +279,19 @@
     $('#heroDeltas').innerHTML = deltaChip(prevLabel, mom.vsPrev) + deltaChip(prev2Label, mom.vsPrev2);
 
     if (hasData) GP.charts.momBars('momChart', mom.months.map(monthLabel), mom.series, mom.currentIdx);
+  }
+
+  /** Render the insights panel: smart suggestions + plain-language readouts
+      of what each chart is showing ("Top category", "Biggest spend"…). */
+  function renderInsights(store, agg) {
+    renderSuggestions(store, agg);
+    const box = $('#takeaways');
+    const items = chartInsights(agg);
+    box.innerHTML = items.length
+      ? items.map((t) => `<div class="takeaway"><span class="tk-ic">${icon(t.icon, 18, '#3f7d54')}</span>`
+          + `<span class="tk-body"><span class="tk-label">${esc(t.label)}</span>`
+          + `<span class="tk-text">${esc(t.text)}</span></span></div>`).join('')
+      : '<div class="takeaway muted-takeaway">Save monthly lists to see what your charts reveal.</div>';
   }
 
   /** Render optimization suggestions from a pre-computed aggregate. */

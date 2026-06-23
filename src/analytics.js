@@ -81,6 +81,62 @@
   }
 
   /**
+   * Per-item unit-price change between its first and latest purchase month.
+   * Returns the biggest movers (up or down) — { name, pct, first, last } —
+   * sorted by magnitude. Drives the "Biggest price movers" chart.
+   */
+  function priceMovers(agg, limit) {
+    const { byItem, itemByMonth } = agg;
+    const out = [];
+    Object.entries(byItem).forEach(([name, d]) => {
+      if (d.months.size < 2) return;
+      const ms = [...d.months].sort();
+      const first = avgPrice(itemByMonth, name, ms[0]);
+      const last = avgPrice(itemByMonth, name, ms[ms.length - 1]);
+      if (first && last && first !== last) {
+        out.push({ name, pct: Math.round(((last - first) / first) * 100), first, last });
+      }
+    });
+    return out.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct)).slice(0, limit || 7);
+  }
+
+  /**
+   * Plain-language readouts of what each chart is showing — the "headline"
+   * behind every graph (top category, biggest spend, fastest-rising price…).
+   * Returns [{ icon, label, text }] for the dashboard insights panel.
+   */
+  function chartInsights(agg) {
+    const { money } = GP.utils;
+    const { byCat, byItem, byMonth } = agg;
+    const out = [];
+    if (!Object.keys(byMonth).length) return out;
+
+    const catEntries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+    const catTotal = catEntries.reduce((s, c) => s + c[1], 0) || 1;
+    if (catEntries.length) {
+      const [c, v] = catEntries[0];
+      out.push({ icon: 'wallet', label: 'Top category', text: `${c} — ${money(v)} (${Math.round((v / catTotal) * 100)}% of spend)` });
+    }
+
+    const topVal = Object.entries(byItem).sort((a, b) => b[1].val - a[1].val)[0];
+    if (topVal) out.push({ icon: 'trendingUp', label: 'Biggest spend', text: `${topVal[0]} — ${money(topVal[1].val)} total` });
+
+    const freq = Object.entries(byItem).sort((a, b) => b[1].months.size - a[1].months.size)[0];
+    if (freq && freq[1].months.size > 1) out.push({ icon: 'repeat', label: 'Most frequent', text: `${freq[0]} — bought in ${freq[1].months.size} months` });
+
+    const topQty = Object.entries(byItem).sort((a, b) => b[1].qty - a[1].qty)[0];
+    if (topQty) out.push({ icon: 'sparkles', label: 'Highest volume', text: `${topQty[0]} — ${Math.round(topQty[1].qty * 100) / 100} ${topQty[1].unit}` });
+
+    const movers = priceMovers(agg);
+    const up = movers.find((m) => m.pct > 0);
+    if (up) out.push({ icon: 'flame', label: 'Fastest-rising price', text: `${up.name} — +${up.pct}% (${money(up.first)} → ${money(up.last)})` });
+    const down = movers.find((m) => m.pct < 0);
+    if (down) out.push({ icon: 'check', label: 'Best price drop', text: `${down.name} — ${down.pct}% (${money(down.first)} → ${money(down.last)})` });
+
+    return out;
+  }
+
+  /**
    * Build optimization suggestions from an aggregate.
    * Returns { empty, items } where `empty` means there's no saved history yet.
    * Each item is { icon, good, text }: `icon` names a glyph in constants.ICONS
@@ -145,5 +201,5 @@
     return { empty: false, items: out.slice(0, 6) };
   }
 
-  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth };
+  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth, priceMovers, chartInsights };
 })(window.GP = window.GP || {});
