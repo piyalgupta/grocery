@@ -4,7 +4,27 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#2f9e5b" />
-<title>Grocery Planner</title>
+<title>Grocery Planner — plan, track & save on monthly groceries</title>
+<meta name="description" content="Build monthly grocery lists with a smart auto-filling catalog, then track spend, buying habits and price trends on one dashboard. Export a PDF order sheet. No sign-up — data stays in your browser." />
+
+<!-- Icons -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Grocery Planner" />
+<meta property="og:description" content="Plan monthly grocery lists, track spend & buying habits, spot price trends, and export a PDF — all in your browser." />
+<meta property="og:image" content="og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Grocery Planner" />
+<meta name="twitter:description" content="Plan monthly grocery lists, track spend & buying habits, spot price trends, and export a PDF — all in your browser." />
+<meta name="twitter:image" content="og-image.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -101,6 +121,8 @@
         <div class="kpi kpi-amber"><span class="kpi-label">Items planned</span><strong id="kpiItems">0</strong></div>
         <div class="kpi kpi-blue"><span class="kpi-label">Avg / item</span><strong id="kpiAvg">₹0</strong></div>
         <div class="kpi kpi-purple"><span class="kpi-label">Saved months</span><strong id="kpiMonths">0</strong></div>
+        <div class="kpi kpi-green"><span class="kpi-label">Avg / month</span><strong id="kpiMonthAvg">₹0</strong></div>
+        <div class="kpi kpi-blue"><span class="kpi-label">Lifetime spend</span><strong id="kpiLifetime">₹0</strong></div>
       </div>
 
       <div class="card sug-card">
@@ -109,9 +131,12 @@
       </div>
 
       <div class="chart-grid">
+        <div class="card"><h2 class="serif small-h">Monthly spend trend</h2><div class="chart-box"><canvas id="trendChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Spend by category</h2><div class="chart-box"><canvas id="catChart"></canvas></div></div>
-        <div class="card"><h2 class="serif small-h">Monthly trend</h2><div class="chart-box"><canvas id="trendChart"></canvas></div></div>
-        <div class="card wide"><h2 class="serif small-h">Top consumed items</h2><div class="chart-box tall"><canvas id="topChart"></canvas></div></div>
+        <div class="card wide"><h2 class="serif small-h">Category spend over time</h2><p class="chart-note">How your basket mix shifts month to month</p><div class="chart-box tall"><canvas id="catTrendChart"></canvas></div></div>
+        <div class="card wide"><h2 class="serif small-h">Price trends · top recurring items</h2><p class="chart-note">Unit price each month — spot items creeping up</p><div class="chart-box tall"><canvas id="priceChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Buying habits · most frequent</h2><p class="chart-note">Months each item appears in</p><div class="chart-box tall"><canvas id="freqChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Top consumed items</h2><p class="chart-note">Total quantity bought</p><div class="chart-box tall"><canvas id="topChart"></canvas></div></div>
       </div>
     </section>
 
