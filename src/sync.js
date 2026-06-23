@@ -5,7 +5,9 @@
 (function (GP) {
   'use strict';
 
-  const OWNER = 'piyalgupta', REPO = 'grocery', BRANCH = 'main';
+  // Data lives on its own branch so frequent autosaves never touch the
+  // protected `main` history (which is reserved for code, merged via PRs).
+  const OWNER = 'piyalgupta', REPO = 'grocery', BRANCH = 'gp-data';
   const PATH = 'data/grocery-data.json';
   const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PATH}`;
   const RAW = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${PATH}`;
