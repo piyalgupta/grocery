@@ -1,0 +1,14 @@
+{
+  "name": "Grocery Planner",
+  "short_name": "Groceries",
+  "description": "Plan monthly grocery lists, track spend & buying habits, and export a PDF order sheet.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#eaeef3",
+  "theme_color": "#2f9e5b",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

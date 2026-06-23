@@ -17,8 +17,11 @@ Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
   and save under a new name. Lists live in your browser (your personal repo).
 - **PDF export** — one tap creates a tidy order sheet (item, qty, unit, price,
   total) to send to the grocery store.
-- **Consumption dashboard** — spend by category, monthly trend, top consumed
-  items, and **optimization suggestions** (bulk-buy, rising spend, waste, etc.).
+- **Consumption dashboard** — monthly spend trend, spend by category,
+  **category mix over time**, **per-item price trends**, buying-habit
+  frequency, top consumed items, plus **smart suggestions** (bulk-buy, rising
+  spend, price creep, waste, etc.). Charts use currency-formatted axes and
+  value/share tooltips.
 - **Fully responsive** — works in portrait & landscape on phones, tablets,
   laptops and desktops.
 

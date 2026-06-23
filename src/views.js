@@ -129,19 +129,56 @@
   function renderDash(store) {
     const cur = store.current;
     const curTot = listTotal(cur.items);
+
+    const agg = aggregate(store.lists);
+    const { byCat, byMonth, byItem, byCatMonth, itemByMonth } = agg;
+    const months = Object.keys(byMonth).sort();
+    const lifetime = months.reduce((s, m) => s + byMonth[m], 0);
+
+    // KPIs (current basket + lifetime habits)
     $('#kpiSpend').textContent = money(curTot);
     $('#kpiItems').textContent = cur.items.length;
     $('#kpiAvg').textContent = money(cur.items.length ? curTot / cur.items.length : 0);
-    $('#kpiMonths').textContent = new Set(Object.values(store.lists).map((l) => l.month)).size;
+    $('#kpiMonths').textContent = months.length;
+    $('#kpiMonthAvg').textContent = money(months.length ? lifetime / months.length : 0);
+    $('#kpiLifetime').textContent = money(lifetime);
 
-    const agg = aggregate(store.lists);
-    const { byCat, byMonth, byItem } = agg;
-
-    GP.charts.doughnut('catChart', Object.keys(byCat), Object.values(byCat));
-    const months = Object.keys(byMonth).sort();
+    // Monthly spend trend + spend-by-category mix
     GP.charts.line('trendChart', months, months.map((m) => byMonth[m]));
+    GP.charts.doughnut('catChart', Object.keys(byCat), Object.values(byCat));
+
+    // Category spend over time (stacked) — how the basket mix shifts month to month
+    const cats = Object.keys(byCat).sort((a, b) => byCat[b] - byCat[a]);
+    const series = {};
+    cats.forEach((c) => { series[c] = months.map((m) => (byCatMonth[m] && byCatMonth[m][c]) || 0); });
+    GP.charts.stackedBar('catTrendChart', months, cats, series);
+
+    // Unit-price trends for the top recurring items — surfaces creeping prices
+    const recurring = Object.entries(byItem)
+      .filter(([, d]) => d.months.size >= 2)
+      .sort((a, b) => b[1].val - a[1].val)
+      .slice(0, 5);
+    const priceSeries = recurring.map(([name]) => ({
+      label: name,
+      data: months.map((m) => GP.analytics.avgPrice(itemByMonth, name, m))
+    }));
+    GP.charts.multiLine('priceChart', months, priceSeries, { money: true });
+
+    // Buying habits — how often each item is purchased (months it appears in)
+    const freq = Object.entries(byItem)
+      .sort((a, b) => b[1].months.size - a[1].months.size || b[1].qty - a[1].qty)
+      .slice(0, 8);
+    GP.charts.bar('freqChart', freq.map((f) => f[0]), freq.map((f) => f[1].months.size), {
+      color: '#9b5bd6', xTitle: 'Months purchased',
+      tipLabel: (c) => c.parsed.x + (c.parsed.x === 1 ? ' month' : ' months')
+    });
+
+    // Top consumed items by quantity
     const top = Object.entries(byItem).sort((a, b) => b[1].qty - a[1].qty).slice(0, 8);
-    GP.charts.bar('topChart', top.map((t) => t[0]), top.map((t) => Math.round(t[1].qty * 100) / 100));
+    GP.charts.bar('topChart', top.map((t) => t[0]), top.map((t) => Math.round(t[1].qty * 100) / 100), {
+      color: '#3fae5a', xTitle: 'Quantity',
+      tipLabel: (c) => (Math.round(c.parsed.x * 100) / 100) + ' ' + (byItem[c.label] ? byItem[c.label].unit : '')
+    });
 
     renderSuggestions(store, agg);
   }

@@ -221,6 +221,7 @@ select{padding:.64rem .55rem; font-size:.9rem}
 /* ---------- Charts ---------- */
 .chart-grid{display:grid; gap:1rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .chart-grid .wide{grid-column:1/-1}
+.chart-note{margin:.15rem 0 .7rem; font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:#9aa3b0}
 .chart-box{height:240px}
 .chart-box.tall{height:260px}
 
