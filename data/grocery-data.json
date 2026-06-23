@@ -1,1 +1,229 @@
-{"updatedAt":0}
+{
+  "updatedAt": 1782239545416,
+  "gp_catalog": {
+    "Rice": {
+      "unit": "kg",
+      "category": "Grains & Pulses",
+      "lastPrice": 60
+    },
+    "Wheat Flour": {
+      "unit": "kg",
+      "category": "Grains & Pulses",
+      "lastPrice": 45
+    },
+    "Toor Dal": {
+      "unit": "kg",
+      "category": "Grains & Pulses",
+      "lastPrice": 140
+    },
+    "Sugar": {
+      "unit": "kg",
+      "category": "Grains & Pulses",
+      "lastPrice": 45
+    },
+    "Salt": {
+      "unit": "kg",
+      "category": "Spices & Oil",
+      "lastPrice": 25
+    },
+    "Cooking Oil": {
+      "unit": "L",
+      "category": "Spices & Oil",
+      "lastPrice": 150
+    },
+    "Milk": {
+      "unit": "L",
+      "category": "Dairy",
+      "lastPrice": 60
+    },
+    "Curd": {
+      "unit": "kg",
+      "category": "Dairy",
+      "lastPrice": 70
+    },
+    "Paneer": {
+      "unit": "g",
+      "category": "Dairy",
+      "lastPrice": 90
+    },
+    "Butter": {
+      "unit": "g",
+      "category": "Dairy",
+      "lastPrice": 55
+    },
+    "Eggs": {
+      "unit": "dozen",
+      "category": "Dairy",
+      "lastPrice": 75
+    },
+    "Onion": {
+      "unit": "kg",
+      "category": "Vegetables",
+      "lastPrice": 35
+    },
+    "Potato": {
+      "unit": "kg",
+      "category": "Vegetables",
+      "lastPrice": 30
+    },
+    "Tomato": {
+      "unit": "kg",
+      "category": "Vegetables",
+      "lastPrice": 40
+    },
+    "Garlic": {
+      "unit": "g",
+      "category": "Vegetables",
+      "lastPrice": 30
+    },
+    "Ginger": {
+      "unit": "g",
+      "category": "Vegetables",
+      "lastPrice": 25
+    },
+    "Spinach": {
+      "unit": "bunch",
+      "category": "Vegetables",
+      "lastPrice": 20
+    },
+    "Banana": {
+      "unit": "dozen",
+      "category": "Fruits",
+      "lastPrice": 50
+    },
+    "Apple": {
+      "unit": "kg",
+      "category": "Fruits",
+      "lastPrice": 180
+    },
+    "Tea": {
+      "unit": "g",
+      "category": "Beverages",
+      "lastPrice": 60
+    },
+    "Coffee": {
+      "unit": "g",
+      "category": "Beverages",
+      "lastPrice": 120
+    },
+    "Bread": {
+      "unit": "loaf",
+      "category": "Snacks",
+      "lastPrice": 40
+    },
+    "Biscuits": {
+      "unit": "packet",
+      "category": "Snacks",
+      "lastPrice": 30
+    },
+    "Turmeric": {
+      "unit": "g",
+      "category": "Spices & Oil",
+      "lastPrice": 20
+    },
+    "Chilli Powder": {
+      "unit": "g",
+      "category": "Spices & Oil",
+      "lastPrice": 25
+    },
+    "Detergent": {
+      "unit": "kg",
+      "category": "Household",
+      "lastPrice": 120
+    },
+    "Dish Soap": {
+      "unit": "packet",
+      "category": "Household",
+      "lastPrice": 10
+    },
+    "Toothpaste": {
+      "unit": "packet",
+      "category": "Personal Care",
+      "lastPrice": 54
+    },
+    "Soap": {
+      "unit": "pcs",
+      "category": "Personal Care",
+      "lastPrice": 35
+    },
+    "Shampoo": {
+      "unit": "bottle",
+      "category": "Personal Care",
+      "lastPrice": 180
+    },
+    "Amsatter Aachaar": {
+      "unit": "bottle",
+      "category": "Household",
+      "lastPrice": 140
+    },
+    "Sunflower Oil": {
+      "unit": "L",
+      "category": "Spices & Oil",
+      "lastPrice": 160
+    },
+    "Coriander Powder": {
+      "unit": "g",
+      "category": "Spices & Oil",
+      "lastPrice": 0
+    },
+    "Mustard Oil": {
+      "unit": "g",
+      "category": "Spices & Oil",
+      "lastPrice": 160
+    },
+    "Cumin Powder": {
+      "unit": "packet",
+      "category": "Spices & Oil",
+      "lastPrice": 0
+    },
+    "Room Freshner": {
+      "unit": "bottle",
+      "category": "Household",
+      "lastPrice": 0
+    },
+    "Turmeric Powder": {
+      "unit": "g",
+      "category": "Spices & Oil",
+      "lastPrice": 20
+    },
+    "Nimyle/Phenyl": {
+      "unit": "kg",
+      "category": "Household",
+      "lastPrice": 0
+    },
+    "Chicken": {
+      "unit": "kg",
+      "category": "Dairy",
+      "lastPrice": 229
+    }
+  },
+  "gp_lists": {
+    "2026-07 Groceries": {
+      "name": "2026-07 Groceries",
+      "month": "2026-07",
+      "store": "",
+      "items": [],
+      "savedAt": "2026-06-23T18:32:25.416Z"
+    }
+  },
+  "gp_months": {
+    "2026-06": {
+      "name": "Monthly Grocery",
+      "month": "2026-06",
+      "store": "",
+      "items": []
+    },
+    "2026-07": {
+      "name": "2026-07 Groceries",
+      "month": "2026-07",
+      "store": "",
+      "items": []
+    }
+  },
+  "gp_current": {
+    "name": "2026-07 Groceries",
+    "month": "2026-07",
+    "store": "",
+    "items": []
+  }
+}
