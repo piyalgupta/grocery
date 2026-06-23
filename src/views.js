@@ -28,7 +28,7 @@
     $('#btnPdf').innerHTML = icon('download', 20);
     $('#btnAdd').innerHTML = icon('plus', 20);
     $('#btnNew').innerHTML = icon('plus', 20);
-    $('#cartIc').innerHTML = icon('cart', 18, '#3f7a58');
+    $('#cartIc').innerHTML = icon('cart', 18, '#3f7d54');
   }
 
   /** Transient bottom toast. */
@@ -56,8 +56,54 @@
     fillSelect($('#itemCat'), CATS, 'Vegetables');
   }
 
-  /** Render the current list, its rows and totals. `handlers` = { onChange, onDelete }. */
-  function renderList(store, handlers) {
+  /** Build the inline edit form for a single item (all fields editable). */
+  function buildEditRow(el, it, handlers) {
+    const [iconName, color] = catMeta(it.category);
+    const unitOpts = UNITS.map((u) => `<option ${u === it.unit ? 'selected' : ''}>${esc(u)}</option>`).join('');
+    const catOpts = CATS.map((c) => `<option ${c === it.category ? 'selected' : ''}>${esc(c)}</option>`).join('');
+    el.className = 'row editing';
+    el.innerHTML = `
+      <div class="dot" style="background:${color}22;color:${color};border:1px solid ${color}40">${icon(iconName, 20)}</div>
+      <div class="r-edit-form">
+        <div class="edit-fld grow">
+          <label>Item</label>
+          <input class="e-name" type="text" value="${esc(it.name)}" aria-label="Item name">
+        </div>
+        <div class="edit-fld">
+          <label>Qty</label>
+          <input class="e-qty mono" type="number" min="0" step="0.25" value="${it.qty}" aria-label="Quantity">
+        </div>
+        <div class="edit-fld">
+          <label>Unit</label>
+          <select class="e-unit" aria-label="Unit">${unitOpts}</select>
+        </div>
+        <div class="edit-fld">
+          <label>Price / unit</label>
+          <input class="e-price mono" type="number" min="0" step="0.5" value="${it.price}" aria-label="Price per unit">
+        </div>
+        <div class="edit-fld">
+          <label>Category</label>
+          <select class="e-cat" aria-label="Category">${catOpts}</select>
+        </div>
+      </div>
+      <div class="r-edit-actions">
+        <button class="r-save" title="Save" aria-label="Save">${icon('check2', 18)}</button>
+        <button class="r-cancel" title="Cancel" aria-label="Cancel">${icon('x', 17)}</button>
+      </div>`;
+    el.querySelector('.r-save').addEventListener('click', () => handlers.onEditSave(it.id, {
+      name: el.querySelector('.e-name').value,
+      qty: +el.querySelector('.e-qty').value || 0,
+      unit: el.querySelector('.e-unit').value,
+      price: +el.querySelector('.e-price').value || 0,
+      category: el.querySelector('.e-cat').value
+    }));
+    el.querySelector('.r-cancel').addEventListener('click', () => handlers.onEditCancel());
+    el.querySelector('.e-name').addEventListener('keydown', (ev) => { if (ev.key === 'Enter') el.querySelector('.r-save').click(); });
+  }
+
+  /** Render the current list, its rows and totals.
+      `handlers` = { onChange, onDelete, onEdit, onEditSave, onEditCancel }. */
+  function renderList(store, handlers, editingId) {
     const cur = store.current;
     $('#curListName').textContent = cur.name;
     $('#storeInput').value = cur.store || '';
@@ -71,8 +117,15 @@
     cur.items.forEach((it) => {
       const line = (it.qty || 0) * (it.price || 0);
       total += line;
-      const [iconName, color] = catMeta(it.category);
       const el = document.createElement('div');
+
+      if (it.id === editingId) {
+        buildEditRow(el, it, handlers);
+        box.appendChild(el);
+        return;
+      }
+
+      const [iconName, color] = catMeta(it.category);
       el.className = 'row' + (it.bought ? ' bought' : '');
       el.innerHTML = `
         <input class="chk" type="checkbox" ${it.bought ? 'checked' : ''} data-act="buy" aria-label="Bought">
@@ -86,9 +139,11 @@
           <span class="r-unit">${esc(it.unit)}</span>
           <input class="r-price" type="number" min="0" step="0.5" value="${it.price}" data-act="price" aria-label="Price per unit">
           <span class="r-line">${money(line)}</span>
+          <button class="r-edit" data-act="edit" title="Edit item" aria-label="Edit item">${icon('pencil', 16)}</button>
           <button class="r-del" data-act="del" title="Remove" aria-label="Remove">${icon('x', 17)}</button>
         </div>`;
       el.querySelectorAll('input[data-act]').forEach((node) => node.addEventListener('change', (ev) => handlers.onChange(it.id, ev)));
+      el.querySelector('[data-act="edit"]').addEventListener('click', () => handlers.onEdit(it.id));
       el.querySelector('[data-act="del"]').addEventListener('click', () => handlers.onDelete(it.id));
       box.appendChild(el);
     });
@@ -191,7 +246,7 @@
       ? res.items
       : [{ icon: 'check', good: true, text: 'Looking efficient — no issues spotted this month.' }];
     box.innerHTML = items.map((s) => {
-      const color = s.good ? '#2f9e5b' : '#d9882f';
+      const color = s.good ? '#3f7d54' : '#b3742f';
       return `<div class="sug ${s.good ? 'good' : 'warn'}"><span class="sug-ic">${icon(s.icon, 20, color)}</span><span>${esc(s.text)}</span></div>`;
     }).join('');
   }

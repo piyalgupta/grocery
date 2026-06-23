@@ -59,7 +59,9 @@
     trendingUp: '<path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/>',
     check: '<path d="M21.8 10A10 10 0 1 1 12 2c2.5 0 4.8.9 6.6 2.4"/><path d="m9 11 3 3L22 4"/>',
     wallet: '<path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5"/><path d="M3 5v14a2 2 0 0 0 2 2h16a1 1 0 0 0 1-1v-4"/><path d="M18 12a.5.5 0 0 0 0 1h.01"/>',
-    sparkles: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>'
+    sparkles: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
+    pencil: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+    check2: '<path d="M20 6 9 17l-5-5"/>'
   };
 
   // Seed catalog: name -> [unit, category, lastPrice]
