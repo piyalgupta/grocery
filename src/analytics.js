@@ -42,6 +42,38 @@
     return { byCat, byMonth, countByMonth, byItem, byCatMonth, itemByMonth };
   }
 
+  /**
+   * Month-on-month spend comparison for the dashboard hero.
+   * Takes `byMonth` (spend per month) and returns the latest month, how it
+   * compares to the previous month and to two months ago, plus a short context
+   * series (up to the last 6 months) for the trend bars.
+   *
+   * Each `change` is { diff, pct, dir } where dir is 'up' | 'down' | 'flat'.
+   */
+  function monthOnMonth(byMonth) {
+    const months = Object.keys(byMonth).sort();
+    const n = months.length;
+    const at = (k) => (n - k >= 0 ? { month: months[n - k], spend: byMonth[months[n - k]] } : null);
+    const current = at(1), prev = at(2), prev2 = at(3);
+
+    const change = (cur, base) => {
+      if (!cur || !base) return null;
+      const diff = cur.spend - base.spend;
+      const pct = base.spend ? Math.round((diff / base.spend) * 100) : (cur.spend ? 100 : 0);
+      return { diff, pct, dir: diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat' };
+    };
+
+    const trend = months.slice(-6);
+    return {
+      months: trend,
+      series: trend.map((m) => byMonth[m]),
+      currentIdx: trend.length - 1,
+      current, prev, prev2,
+      vsPrev: change(current, prev),
+      vsPrev2: change(current, prev2)
+    };
+  }
+
   /** Average unit price of an item in a given month, or null if not bought. */
   function avgPrice(itemByMonth, name, month) {
     const e = itemByMonth[name] && itemByMonth[name][month];
@@ -113,5 +145,5 @@
     return { empty: false, items: out.slice(0, 6) };
   }
 
-  GP.analytics = { listTotal, aggregate, avgPrice, suggestions };
+  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth };
 })(window.GP = window.GP || {});

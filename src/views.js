@@ -4,9 +4,9 @@
 (function (GP) {
   'use strict';
 
-  const { $, money, esc } = GP.utils;
+  const { $, money, esc, monthLabel, monthLong } = GP.utils;
   const { UNITS, CATS, ICONS, CATMETA } = GP.constants;
-  const { listTotal, aggregate, suggestions } = GP.analytics;
+  const { listTotal, aggregate, suggestions, monthOnMonth } = GP.analytics;
 
   /** Build an inline Lucide-style SVG for a named glyph. */
   function icon(name, size, color) {
@@ -190,6 +190,9 @@
     const months = Object.keys(byMonth).sort();
     const lifetime = months.reduce((s, m) => s + byMonth[m], 0);
 
+    // Hero: month-on-month spend (the headline story of the dashboard)
+    renderHero(monthOnMonth(byMonth));
+
     // KPIs (current basket + lifetime habits)
     $('#kpiSpend').textContent = money(curTot);
     $('#kpiItems').textContent = cur.items.length;
@@ -236,6 +239,38 @@
     });
 
     renderSuggestions(store, agg);
+  }
+
+  /** One delta chip ("vs last month  ▲ 12%  +₹450"), coloured by direction:
+      spending more reads as a warning, spending less as a win. */
+  function deltaChip(label, ch) {
+    if (!ch) {
+      return `<div class="delta-card flat"><span class="delta-cap">${esc(label)}</span>`
+        + `<strong class="delta-val">—</strong><span class="delta-sub">not enough history</span></div>`;
+    }
+    const arrow = ch.dir === 'up' ? '▲' : ch.dir === 'down' ? '▼' : '▬';
+    const sign = ch.diff > 0 ? '+' : ch.diff < 0 ? '−' : '';
+    return `<div class="delta-card ${ch.dir}">
+      <span class="delta-cap">${esc(label)}</span>
+      <strong class="delta-val">${arrow} ${Math.abs(ch.pct)}%</strong>
+      <span class="delta-sub">${sign}${money(Math.abs(ch.diff))}</span>
+    </div>`;
+  }
+
+  /** Render the month-on-month hero: latest month's spend, deltas vs the two
+      prior months, and a compact trend-bar chart. */
+  function renderHero(mom) {
+    const hasData = mom.current != null;
+    $('#heroEmpty').hidden = hasData;
+    $('#heroBody').style.display = hasData ? '' : 'none';
+    $('#heroMonth').textContent = hasData ? monthLong(mom.current.month) : 'Month-on-month';
+    $('#heroAmount').textContent = money(hasData ? mom.current.spend : 0);
+
+    const prevLabel = mom.prev ? 'vs ' + monthLabel(mom.prev.month) : 'vs last month';
+    const prev2Label = mom.prev2 ? 'vs ' + monthLabel(mom.prev2.month) : 'vs 2 months ago';
+    $('#heroDeltas').innerHTML = deltaChip(prevLabel, mom.vsPrev) + deltaChip(prev2Label, mom.vsPrev2);
+
+    if (hasData) GP.charts.momBars('momChart', mom.months.map(monthLabel), mom.series, mom.currentIdx);
   }
 
   /** Render optimization suggestions from a pre-computed aggregate. */

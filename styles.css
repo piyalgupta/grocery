@@ -279,12 +279,63 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .sug.good{color:var(--accent-deep)}
 .sug.warn{color:#b3742f}
 
+/* ---------- Hero · month-on-month ---------- */
+.hero-card{
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(90,156,110,.10), transparent 60%),
+    var(--bg);
+}
+.hero-top{display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.1rem}
+.hero-meta{display:flex; flex-direction:column; gap:.15rem}
+.hero-month{font-size:1.5rem; color:var(--text); line-height:1.15}
+.hero-sub{font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:var(--muted)}
+.hero-amount-wrap{display:flex; flex-direction:column; align-items:flex-end; gap:.1rem}
+.hero-amount-cap{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.hero-amount{font-size:2.3rem; font-weight:600; color:var(--accent-deep); line-height:1}
+.hero-body{display:grid; grid-template-columns:1fr; gap:1.1rem}
+.hero-chart-box{height:210px}
+.hero-deltas{display:grid; grid-template-columns:1fr 1fr; gap:.85rem}
+.delta-card{
+  display:flex; flex-direction:column; gap:.25rem; padding:.85rem 1rem;
+  border-radius:var(--r-sm); background:var(--bg); box-shadow:var(--press-sm);
+}
+.delta-cap{font-family:"JetBrains Mono",monospace; font-size:.58rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.delta-val{font-family:"JetBrains Mono",monospace; font-size:1.35rem; font-weight:600; line-height:1}
+.delta-sub{font-family:"JetBrains Mono",monospace; font-size:.74rem; color:var(--muted)}
+.delta-card.up .delta-val{color:#c2702c}      /* spending more — caution */
+.delta-card.down .delta-val{color:var(--accent-deep)}  /* spending less — win */
+.delta-card.flat .delta-val,.delta-card.flat .delta-sub{color:var(--muted)}
+.hero-empty{
+  margin:.4rem 0 0; text-align:center; color:var(--faint);
+  font-family:"Newsreader",Georgia,serif; font-style:italic; font-size:1.05rem;
+}
+
 /* ---------- Charts ---------- */
 .chart-grid{display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .chart-grid .wide{grid-column:1/-1}
 .chart-note{margin:.15rem 0 .7rem; font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:var(--muted)}
-.chart-box{height:240px}
-.chart-box.tall{height:260px}
+.chart-box{height:230px}
+
+/* ---------- Desktop: pack the dashboard into one view ---------- */
+@media(min-width:1000px){
+  .dash .card,.dash .kpi-grid,.dash .chart-grid{margin-bottom:1rem}
+  .dash .sug-card{margin-bottom:0}
+  .dash .card{padding:1.1rem 1.3rem}
+  .dash .hero-top{margin-bottom:.8rem}
+  .dash .hero-body{grid-template-columns:1.7fr 1fr; align-items:stretch}
+  .dash .hero-chart-box{height:188px}
+  .dash .hero-deltas{grid-template-columns:1fr; align-content:center; gap:.7rem}
+  .dash .kpi-grid{gap:.8rem}
+  .dash .kpi{padding:.75rem 1rem}
+  .dash .kpi strong{font-size:1.3rem}
+  .dash .chart-grid{gap:1rem; grid-template-columns:repeat(3,1fr)}
+  .dash .chart-grid .wide{grid-column:auto}  /* equal 3×2 grid — no full-width rows */
+  .dash .chart-box{height:148px}
+  .dash .chart-note{margin:.1rem 0 .5rem}
+  .dash .sug-card h2{margin-bottom:.7rem}
+  .dash .sug-list{display:grid; grid-template-columns:1fr 1fr; gap:.6rem}
+  .dash .sug{padding:.6rem .85rem; font-size:.82rem}
+}
 
 /* ---------- Saved ---------- */
 .saved-row{

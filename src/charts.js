@@ -80,6 +80,60 @@
     });
   }
 
+  /**
+   * Vertical "hero" bars for the month-on-month trend. The current month is
+   * drawn in the deep accent; earlier months are a soft tint so the eye lands
+   * on the latest. Value labels sit above each bar for instant readability.
+   */
+  function momBars(id, labels, data, currentIdx) {
+    render(id, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          backgroundColor: data.map((_, i) => (i === currentIdx ? '#2f9e5b' : 'rgba(63,174,90,.28)')),
+          borderRadius: 10, borderSkipped: false, maxBarThickness: 70
+        }]
+      },
+      options: {
+        ...baseOpts(),
+        layout: { padding: { top: 24 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (c) => ' ' + money(c.parsed.y) } },
+          valueLabels: { currentIdx }
+        },
+        scales: {
+          y: moneyAxis({ ticks: { callback: (v) => money(v), maxTicksLimit: 4 } }),
+          x: { grid: { display: false }, ticks: { font: { size: 12 } } }
+        }
+      },
+      plugins: [valueLabelsPlugin]
+    });
+  }
+
+  /** Draws the ₹ value above each hero bar (current month emphasised). */
+  const valueLabelsPlugin = {
+    id: 'valueLabels',
+    afterDatasetsDraw(chart, _args, opts) {
+      const { ctx } = chart;
+      const meta = chart.getDatasetMeta(0);
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      meta.data.forEach((bar, i) => {
+        const v = chart.data.datasets[0].data[i];
+        if (v == null) return;
+        const isCur = i === (opts.currentIdx ?? -1);
+        ctx.font = (isCur ? '600 ' : '500 ') + (isCur ? 13 : 11) + "px 'JetBrains Mono',monospace";
+        ctx.fillStyle = isCur ? '#2f7d4f' : '#8c95a3';
+        ctx.fillText(money(v), bar.x, bar.y - 6);
+      });
+      ctx.restore();
+    }
+  };
+
   /** Horizontal bar (e.g. top items by qty / frequency). `unit` formats tooltips. */
   function bar(id, labels, data, opts) {
     const o = opts || {};
@@ -139,5 +193,5 @@
     });
   }
 
-  GP.charts = { doughnut, line, bar, stackedBar, multiLine, catColor };
+  GP.charts = { doughnut, line, bar, stackedBar, multiLine, momBars, catColor };
 })(window.GP = window.GP || {});
