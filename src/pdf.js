@@ -11,7 +11,7 @@
     const total = GP.analytics.listTotal(list.items);
 
     doc.setFontSize(18);
-    doc.setTextColor(46, 125, 50);
+    doc.setTextColor(47, 158, 91);
     doc.text('Grocery Order', 14, 18);
 
     doc.setFontSize(10);
@@ -26,8 +26,8 @@
       body: list.items.map((i, n) => [n + 1, i.name, i.qty, i.unit, money(i.price), money((i.qty || 0) * (i.price || 0))]),
       foot: [[{ content: 'Estimated Total', colSpan: 5, styles: { halign: 'right' } }, money(total)]],
       theme: 'striped',
-      headStyles: { fillColor: [46, 125, 50] },
-      footStyles: { fillColor: [232, 245, 233], textColor: [27, 94, 32], fontStyle: 'bold' },
+      headStyles: { fillColor: [47, 158, 91] },
+      footStyles: { fillColor: [234, 246, 236], textColor: [31, 122, 68], fontStyle: 'bold' },
       styles: { fontSize: 9 }
     });
 

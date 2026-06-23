@@ -14,11 +14,21 @@
   const renderSaved = () => V.renderSaved(store, { onLoad: onLoad, onDelete: onDeleteSaved });
   const renderDash = () => V.renderDash(store);
 
+  let curView = 'list';
   function show(view) {
-    V.showView(view);
-    if (view === 'dashboard') renderDash();
+    curView = V.showView(view);
+    // Defer the dashboard a tick so the chart boxes have their final layout
+    // (charts size themselves from their parent's measured box).
+    if (view === 'dashboard') setTimeout(renderDash, 60);
     if (view === 'saved') renderSaved();
   }
+
+  // Charts use fixed pixel sizes, so re-render the dashboard on resize (debounced).
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { if (curView === 'dashboard') renderDash(); }, 150);
+  });
 
   /* ---- add form: auto unit/price/category from catalog ---- */
   $('#itemName').addEventListener('input', (e) => {
@@ -125,6 +135,7 @@
   document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => show(t.dataset.view)));
 
   /* ---- init ---- */
+  V.initIcons();
   V.initStaticSelects();
   V.refreshDatalist(store);
   renderList();

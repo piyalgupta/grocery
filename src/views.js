@@ -4,9 +4,32 @@
 (function (GP) {
   'use strict';
 
-  const { $, money } = GP.utils;
-  const { UNITS, CATS } = GP.constants;
+  const { $, money, esc } = GP.utils;
+  const { UNITS, CATS, ICONS, CATMETA } = GP.constants;
   const { listTotal, aggregate, suggestions } = GP.analytics;
+
+  /** Build an inline Lucide-style SVG for a named glyph. */
+  function icon(name, size, color) {
+    return `<svg width="${size || 22}" height="${size || 22}" viewBox="0 0 24 24" fill="none" stroke="${color || 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;display:block">${ICONS[name] || ''}</svg>`;
+  }
+
+  /** [icon name, accent colour] for a category, with a neutral fallback. */
+  const catMeta = (c) => CATMETA[c] || ['bag', '#8a93a0'];
+
+  /** Inject the static (non-list) icons into their placeholder elements. */
+  function initIcons() {
+    $('#logo').innerHTML = icon('basket', 24);
+    $('#calIc').innerHTML = icon('calendar', 18);
+    $('#tabList').innerHTML = icon('list', 22);
+    $('#tabDash').innerHTML = icon('chart', 22);
+    $('#tabSaved').innerHTML = icon('bookmark', 22);
+    $('#btnSave').innerHTML = icon('save', 20);
+    $('#btnSaveAs').innerHTML = icon('copy', 20);
+    $('#btnPdf').innerHTML = icon('download', 20);
+    $('#btnAdd').innerHTML = icon('plus', 20);
+    $('#btnNew').innerHTML = icon('plus', 20);
+    $('#cartIc').innerHTML = icon('cart', 18, '#3f7a58');
+  }
 
   /** Transient bottom toast. */
   function toast(message) {
@@ -19,12 +42,12 @@
 
   /** Populate a <select> with options, pre-selecting `selected`. */
   function fillSelect(el, options, selected) {
-    el.innerHTML = options.map((o) => `<option ${o === selected ? 'selected' : ''}>${o}</option>`).join('');
+    el.innerHTML = options.map((o) => `<option ${o === selected ? 'selected' : ''}>${esc(o)}</option>`).join('');
   }
 
   /** Refresh the item-name autocomplete datalist from the catalog. */
   function refreshDatalist(store) {
-    $('#catalogList').innerHTML = store.catalogNames().map((n) => `<option value="${n}">`).join('');
+    $('#catalogList').innerHTML = store.catalogNames().map((n) => `<option value="${esc(n)}">`).join('');
   }
 
   /** Static selects that never change after load. */
@@ -48,18 +71,24 @@
     cur.items.forEach((it) => {
       const line = (it.qty || 0) * (it.price || 0);
       total += line;
+      const [iconName, color] = catMeta(it.category);
       const el = document.createElement('div');
       el.className = 'row' + (it.bought ? ' bought' : '');
       el.innerHTML = `
-        <div class="r-chk"><input class="chk" type="checkbox" ${it.bought ? 'checked' : ''} data-act="buy"></div>
-        <div class="r-name">${it.name}<div class="r-sub">${it.category}</div></div>
-        <div class="r-edit-wrap"><input class="r-edit" type="number" min="0" step="0.25" value="${it.qty}" data-act="qty"></div>
-        <div class="r-edit-wrap"><span class="r-sub">${it.unit}</span></div>
-        <div class="r-edit-wrap"><input class="r-edit" type="number" min="0" step="0.5" value="${it.price}" data-act="price"></div>
-        <div class="r-sub-wrap r-sub">${it.qty} ${it.unit} × ${money(it.price)}</div>
-        <div class="r-total">${money(line)}</div>
-        <div class="r-actions"><button class="icon-btn del" data-act="del">🗑</button></div>`;
-      el.querySelectorAll('[data-act]').forEach((node) => node.addEventListener('change', (ev) => handlers.onChange(it.id, ev)));
+        <input class="chk" type="checkbox" ${it.bought ? 'checked' : ''} data-act="buy" aria-label="Bought">
+        <div class="dot" style="background:${color}22;color:${color};border:1px solid ${color}40">${icon(iconName, 20)}</div>
+        <div class="r-main">
+          <div class="r-name">${esc(it.name)}</div>
+          <div class="r-cat">${esc(it.category)}</div>
+        </div>
+        <div class="r-edit-wrap">
+          <input class="r-qty" type="number" min="0" step="0.25" value="${it.qty}" data-act="qty" aria-label="Quantity">
+          <span class="r-unit">${esc(it.unit)}</span>
+          <input class="r-price" type="number" min="0" step="0.5" value="${it.price}" data-act="price" aria-label="Price per unit">
+          <span class="r-line">${money(line)}</span>
+          <button class="r-del" data-act="del" title="Remove" aria-label="Remove">${icon('x', 17)}</button>
+        </div>`;
+      el.querySelectorAll('input[data-act]').forEach((node) => node.addEventListener('change', (ev) => handlers.onChange(it.id, ev)));
       el.querySelector('[data-act="del"]').addEventListener('click', () => handlers.onDelete(it.id));
       box.appendChild(el);
     });
@@ -78,12 +107,17 @@
     names.forEach((name) => {
       const l = store.lists[name];
       const tot = listTotal(l.items);
+      const meta = `${l.month} · ${l.items.length} items · ${money(tot)}${l.store ? ' · ' + esc(l.store) : ''}`;
       const el = document.createElement('div');
       el.className = 'saved-row';
-      el.innerHTML = `<div><strong>${name}</strong><div class="meta">${l.month} • ${l.items.length} items • ${money(tot)}${l.store ? ' • ' + l.store : ''}</div></div>
-        <div class="r-actions">
-          <button class="btn ghost" data-a="load">Load</button>
-          <button class="btn danger" data-a="del">Delete</button>
+      el.innerHTML = `
+        <div>
+          <strong>${esc(name)}</strong>
+          <div class="meta">${meta}</div>
+        </div>
+        <div class="saved-actions">
+          <button class="btn-icon glass" data-a="load" title="Load list" aria-label="Load">${icon('folder', 20)}</button>
+          <button class="btn-icon danger" data-a="del" title="Delete list" aria-label="Delete">${icon('trash', 20)}</button>
         </div>`;
       el.querySelector('[data-a="load"]').addEventListener('click', () => handlers.onLoad(name));
       el.querySelector('[data-a="del"]').addEventListener('click', () => handlers.onDelete(name));
@@ -114,16 +148,15 @@
 
   /** Render optimization suggestions from a pre-computed aggregate. */
   function renderSuggestions(store, agg) {
-    const ul = $('#suggestions');
+    const box = $('#suggestions');
     const res = suggestions(store.lists, agg);
-    if (res.empty) {
-      ul.innerHTML = '<li class="good">Save a few monthly lists to unlock consumption insights and savings tips. 📈</li>';
-      return;
-    }
-    ul.innerHTML = res.items.map((t) => {
-      const good = t.startsWith('✅||');
-      return `<li class="${good ? 'good' : ''}">${t.replace('✅||', '✅ ')}</li>`;
-    }).join('') || '<li class="good">Looking efficient — no issues spotted this month. 🎉</li>';
+    const items = res.items.length
+      ? res.items
+      : [{ icon: 'check', good: true, text: 'Looking efficient — no issues spotted this month.' }];
+    box.innerHTML = items.map((s) => {
+      const color = s.good ? '#2f9e5b' : '#d9882f';
+      return `<div class="sug ${s.good ? 'good' : 'warn'}"><span class="sug-ic">${icon(s.icon, 20, color)}</span><span>${esc(s.text)}</span></div>`;
+    }).join('');
   }
 
   /** Toggle the active tab + view; returns the activated view id. */
@@ -134,7 +167,7 @@
   }
 
   GP.views = {
-    toast, fillSelect, refreshDatalist, initStaticSelects,
+    toast, icon, initIcons, fillSelect, refreshDatalist, initStaticSelects,
     renderList, renderSaved, renderDash, showView
   };
 })(window.GP = window.GP || {});

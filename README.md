@@ -5,6 +5,9 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 
 **No build step, no server** — just open `index.html` (or host it anywhere static).
 
+A soft **glassmorphism** UI — frosted cards over a pastel aurora background,
+Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
+
 ## Features
 - **Monthly list builder** — add items with quantity, unit, price & category.
 - **Smart catalog** — pick from the dropdown and the right **unit, category and
@@ -27,7 +30,8 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 5. Check the **📊 Dashboard** for consumption insights.
 
 ## Tech
-Vanilla HTML/CSS/JS · [Chart.js](https://www.chartjs.org/) ·
+Vanilla HTML/CSS/JS (no framework, no build) · inline SVG icons ·
+[Chart.js](https://www.chartjs.org/) ·
 [jsPDF](https://github.com/parallax/jsPDF) + autotable · `localStorage` for data.
 
 ## Architecture
