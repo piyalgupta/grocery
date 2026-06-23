@@ -10,7 +10,11 @@
   const store = new GP.Store();
 
   /* ---- render orchestration ---- */
-  const renderList = () => V.renderList(store, { onChange: onItemChange, onDelete: onItemDelete });
+  let editingId = null; // id of the cart item currently in inline-edit mode
+  const renderList = () => V.renderList(store, {
+    onChange: onItemChange, onDelete: onItemDelete,
+    onEdit: onItemEdit, onEditSave: onItemEditSave, onEditCancel: onItemEditCancel
+  }, editingId);
   const renderSaved = () => V.renderSaved(store, { onLoad: onLoad, onDelete: onDeleteSaved });
   const renderDash = () => V.renderDash(store);
 
@@ -73,8 +77,38 @@
   }
 
   function onItemDelete(id) {
+    if (editingId === id) editingId = null;
     store.removeItem(id);
     renderList();
+  }
+
+  /* ---- full inline edit (name/qty/unit/price/category per item) ---- */
+  function onItemEdit(id) {
+    editingId = id;
+    renderList();
+  }
+
+  function onItemEditCancel() {
+    editingId = null;
+    renderList();
+  }
+
+  function onItemEditSave(id, vals) {
+    const it = store.findItem(id);
+    if (!it) return;
+    const name = ucFirst((vals.name || '').trim());
+    if (!name) { V.toast('Enter an item name'); return; }
+    it.name = name;
+    it.qty = vals.qty;
+    it.unit = vals.unit;
+    it.price = vals.price;
+    it.category = vals.category;
+    store.persistCurrent();
+    store.learn(name, { unit: it.unit, category: it.category, lastPrice: it.price });
+    V.refreshDatalist(store);
+    editingId = null;
+    renderList();
+    V.toast(name + ' updated');
   }
 
   $('#monthInput').addEventListener('change', (e) => { store.current.month = e.target.value; store.persistCurrent(); });

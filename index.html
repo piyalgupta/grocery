@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#2f9e5b" />
+<meta name="theme-color" content="#5a9c6e" />
 <title>Grocery Planner — plan, track & save on monthly groceries</title>
 <meta name="description" content="Build monthly grocery lists with a smart auto-filling catalog, then track spend, buying habits and price trends on one dashboard. Export a PDF order sheet. No sign-up — data stays in your browser." />
 
@@ -74,12 +74,12 @@
 
       <div class="card add-card">
         <h2 class="serif">Add to basket</h2>
+        <div class="fld item-fld">
+          <label>Item</label>
+          <input list="catalogList" id="itemName" placeholder="Type or pick an item…" autocomplete="off" />
+          <datalist id="catalogList"></datalist>
+        </div>
         <div class="add-grid">
-          <div class="fld grow">
-            <label>Item</label>
-            <input list="catalogList" id="itemName" placeholder="Type or pick…" autocomplete="off" />
-            <datalist id="catalogList"></datalist>
-          </div>
           <div class="fld">
             <label>Qty</label>
             <input type="number" id="itemQty" class="mono" min="0" step="0.25" value="1" />

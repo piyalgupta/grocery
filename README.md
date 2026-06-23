@@ -5,7 +5,8 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 
 **No build step, no server** — just open `index.html` (or host it anywhere static).
 
-A soft **glassmorphism** UI — frosted cards over a pastel aurora background,
+A soft **neumorphic** UI — single-surface cards extruded with paired
+light/dark shadows on a warm sage background, a fresh-produce green palette,
 Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
 
 ## Features
@@ -15,8 +16,10 @@ Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
 - **Last-price memory** — every item always carries its most recent price.
 - **Save / Load / Save As** — store named lists, reload them next month, tweak,
   and save under a new name. Lists live in your browser (your personal repo).
-- **PDF export** — one tap creates a tidy order sheet (item, qty, unit, price,
-  total) to send to the grocery store.
+- **Per-item editing** — edit any cart item in place (name, qty, unit, price,
+  category) without removing and re-adding it.
+- **PDF export** — one tap creates a tidy order sheet (item, qty, unit, with a
+  tick column) to send to the grocery store.
 - **Consumption dashboard** — monthly spend trend, spend by category,
   **category mix over time**, **per-item price trends**, buying-habit
   frequency, top consumed items, plus **smart suggestions** (bulk-buy, rising
