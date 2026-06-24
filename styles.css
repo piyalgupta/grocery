@@ -45,13 +45,40 @@ input:focus,select:focus{outline:none}
 .muted{color:var(--muted)}
 .small{font-size:.8rem}
 
-/* Subtle, almost-flat backdrop (neumorphism prefers a single matte surface) */
+/* Soft layered backdrop — gentle produce-toned glows drifting over the matte
+   sage surface, plus a faint grain so large flats don't band on wide screens. */
 .bg-aurora{
   position:fixed; inset:0; z-index:-1;
+  overflow:hidden;
   background:
-    radial-gradient(60% 55% at 15% 0%,rgba(255,255,255,.5),transparent 70%),
-    radial-gradient(60% 55% at 90% 100%,rgba(90,156,110,.10),transparent 70%),
+    radial-gradient(55% 50% at 12% -5%,rgba(255,255,255,.55),transparent 68%),
+    radial-gradient(50% 45% at 92% 8%,rgba(224,137,79,.07),transparent 70%),
+    radial-gradient(65% 60% at 88% 105%,rgba(90,156,110,.13),transparent 70%),
+    radial-gradient(45% 40% at 0% 90%,rgba(90,156,110,.07),transparent 72%),
     var(--bg);
+}
+/* slow, barely-there drifting glow on top of the static layers */
+.bg-aurora::before{
+  content:""; position:absolute; inset:-20%;
+  background:
+    radial-gradient(38% 38% at 25% 30%,rgba(90,156,110,.10),transparent 70%),
+    radial-gradient(34% 34% at 75% 70%,rgba(255,255,255,.35),transparent 70%);
+  filter:blur(8px);
+  animation:auroraDrift 26s ease-in-out infinite;
+  will-change:transform;
+}
+/* fine grain to keep the broad gradients from banding */
+.bg-aurora::after{
+  content:""; position:absolute; inset:0;
+  opacity:.035; mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes auroraDrift{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(2.5%,-2%,0) scale(1.06)}
+}
+@media (prefers-reduced-motion:reduce){
+  .bg-aurora::before{animation:none}
 }
 
 .app{min-height:100vh}
