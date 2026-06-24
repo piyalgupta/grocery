@@ -14,6 +14,13 @@
 
   class Store {
     constructor() {
+      this.reload();
+    }
+
+    /** (Re)hydrate all in-memory state from localStorage. Called on construction
+        and again after cloud sync rewrites the tables, so the UI can refresh in
+        place instead of forcing a full-page reload. */
+    reload() {
       this.catalog = read(LS.catalog, null) || this._seedCatalog();
       this.lists = read(LS.lists, {});
       this.months = read(LS.months, {});   // 'YYYY-MM' -> working list snapshot

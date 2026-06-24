@@ -18,6 +18,19 @@
   const renderSaved = () => V.renderSaved(store, { onLoad: onLoad, onDelete: onDeleteSaved });
   const renderDash = () => V.renderDash(store);
 
+  // After cloud sync rewrites localStorage, re-hydrate the store and re-render
+  // the visible view in place. Replaces the old hard `location.reload()`, which
+  // made the whole page flash ("blink") on every open and could loop forever if
+  // a write never converged.
+  function refreshFromSync() {
+    store.reload();
+    editingId = null;
+    V.refreshDatalist(store);
+    renderList();
+    renderSaved();
+    if (curView === 'dashboard') renderDash();
+  }
+
   let curView = 'list';
   function show(view) {
     curView = V.showView(view);
@@ -152,8 +165,8 @@
     }
     GP.sync.push().then((r) => {
       if (r === 'pushed') V.toast('Synced to cloud ✓');
-      // A newer copy from another device arrived — reload to show it.
-      else if (r === 'pulled') location.reload();
+      // A newer copy from another device arrived — refresh in place to show it.
+      else if (r === 'pulled') { refreshFromSync(); V.toast('Updated from cloud'); }
     });
   }
   // Every three minutes, reconcile with the cloud so every device converges on
@@ -162,7 +175,7 @@
   // replaced by a fresher one.
   setInterval(() => {
     Promise.resolve(GP.sync.hasToken() ? GP.sync.push() : GP.sync.pull())
-      .then((r) => { if (r === true || r === 'pulled') location.reload(); });
+      .then((r) => { if (r === true || r === 'pulled') refreshFromSync(); });
   }, 180000);
 
   function onLoad(name) {
@@ -203,6 +216,6 @@
   V.refreshDatalist(store);
   renderList();
 
-  // Pull the latest repo copy on open; reload to pick it up if it's newer.
-  GP.sync.pull().then((changed) => { if (changed) location.reload(); });
+  // Pull the latest repo copy on open; refresh in place to pick it up if newer.
+  GP.sync.pull().then((changed) => { if (changed) refreshFromSync(); });
 })(window.GP = window.GP || {});
