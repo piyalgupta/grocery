@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782273880360,
+  "updatedAt": 1782273912702,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -220,7 +220,7 @@
           "unit": "kg",
           "price": 229,
           "category": "Dairy",
-          "bought": false
+          "bought": true
         },
         {
           "id": "jmkvhgq",
@@ -229,7 +229,7 @@
           "unit": "bottle",
           "price": 110,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "whq0fa2",
@@ -238,7 +238,7 @@
           "unit": "packet",
           "price": 159,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "0e86uqa",
@@ -247,10 +247,10 @@
           "unit": "packet",
           "price": 80,
           "category": "Household",
-          "bought": false
+          "bought": true
         }
       ],
-      "savedAt": "2026-06-24T04:04:39.750Z"
+      "savedAt": "2026-06-24T04:05:12.005Z"
     }
   },
   "gp_months": {
@@ -272,7 +272,7 @@
           "unit": "kg",
           "price": 229,
           "category": "Dairy",
-          "bought": false
+          "bought": true
         },
         {
           "id": "jmkvhgq",
@@ -281,7 +281,7 @@
           "unit": "bottle",
           "price": 110,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "whq0fa2",
@@ -290,7 +290,7 @@
           "unit": "packet",
           "price": 159,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "0e86uqa",
@@ -299,7 +299,7 @@
           "unit": "packet",
           "price": 80,
           "category": "Household",
-          "bought": false
+          "bought": true
         }
       ]
     }
@@ -316,7 +316,7 @@
         "unit": "kg",
         "price": 229,
         "category": "Dairy",
-        "bought": false
+        "bought": true
       },
       {
         "id": "jmkvhgq",
@@ -325,7 +325,7 @@
         "unit": "bottle",
         "price": 110,
         "category": "Household",
-        "bought": false
+        "bought": true
       },
       {
         "id": "whq0fa2",
@@ -334,7 +334,7 @@
         "unit": "packet",
         "price": 159,
         "category": "Household",
-        "bought": false
+        "bought": true
       },
       {
         "id": "0e86uqa",
@@ -343,7 +343,7 @@
         "unit": "packet",
         "price": 80,
         "category": "Household",
-        "bought": false
+        "bought": true
       }
     ]
   }
