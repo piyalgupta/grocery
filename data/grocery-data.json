@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782273839223,
+  "updatedAt": 1782273854051,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -200,6 +200,11 @@
       "unit": "packet",
       "category": "Household",
       "lastPrice": 159
+    },
+    "Dant Kanti Toothpaste": {
+      "unit": "packet",
+      "category": "Household",
+      "lastPrice": 80
     }
   },
   "gp_lists": {
@@ -207,8 +212,45 @@
       "name": "2026-07 Groceries",
       "month": "2026-07",
       "store": "",
-      "items": [],
-      "savedAt": "2026-06-23T18:37:51.540Z"
+      "items": [
+        {
+          "id": "q94lkiu",
+          "name": "Chicken",
+          "qty": 1,
+          "unit": "kg",
+          "price": 229,
+          "category": "Dairy",
+          "bought": false
+        },
+        {
+          "id": "jmkvhgq",
+          "name": "Nimyle/Phenyl",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 110,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "whq0fa2",
+          "name": "Handwash",
+          "qty": 1,
+          "unit": "packet",
+          "price": 159,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "0e86uqa",
+          "name": "Dant Kanti Toothpaste",
+          "qty": 1,
+          "unit": "packet",
+          "price": 80,
+          "category": "Household",
+          "bought": false
+        }
+      ],
+      "savedAt": "2026-06-24T04:04:13.430Z"
     }
   },
   "gp_months": {
@@ -249,6 +291,15 @@
           "price": 159,
           "category": "Household",
           "bought": false
+        },
+        {
+          "id": "0e86uqa",
+          "name": "Dant Kanti Toothpaste",
+          "qty": 1,
+          "unit": "packet",
+          "price": 80,
+          "category": "Household",
+          "bought": false
         }
       ]
     }
@@ -282,6 +333,15 @@
         "qty": 1,
         "unit": "packet",
         "price": 159,
+        "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "0e86uqa",
+        "name": "Dant Kanti Toothpaste",
+        "qty": 1,
+        "unit": "packet",
+        "price": 80,
         "category": "Household",
         "bought": false
       }
