@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782240048688,
+  "updatedAt": 1782273839223,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -187,14 +187,19 @@
       "lastPrice": 20
     },
     "Nimyle/Phenyl": {
-      "unit": "kg",
+      "unit": "bottle",
       "category": "Household",
-      "lastPrice": 0
+      "lastPrice": 110
     },
     "Chicken": {
       "unit": "kg",
       "category": "Dairy",
       "lastPrice": 229
+    },
+    "Handwash": {
+      "unit": "packet",
+      "category": "Household",
+      "lastPrice": 159
     }
   },
   "gp_lists": {
@@ -217,13 +222,69 @@
       "name": "2026-07 Groceries",
       "month": "2026-07",
       "store": "",
-      "items": []
+      "items": [
+        {
+          "id": "q94lkiu",
+          "name": "Chicken",
+          "qty": 1,
+          "unit": "kg",
+          "price": 229,
+          "category": "Dairy",
+          "bought": false
+        },
+        {
+          "id": "jmkvhgq",
+          "name": "Nimyle/Phenyl",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 110,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "whq0fa2",
+          "name": "Handwash",
+          "qty": 1,
+          "unit": "packet",
+          "price": 159,
+          "category": "Household",
+          "bought": false
+        }
+      ]
     }
   },
   "gp_current": {
     "name": "2026-07 Groceries",
     "month": "2026-07",
     "store": "",
-    "items": []
+    "items": [
+      {
+        "id": "q94lkiu",
+        "name": "Chicken",
+        "qty": 1,
+        "unit": "kg",
+        "price": 229,
+        "category": "Dairy",
+        "bought": false
+      },
+      {
+        "id": "jmkvhgq",
+        "name": "Nimyle/Phenyl",
+        "qty": 1,
+        "unit": "bottle",
+        "price": 110,
+        "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "whq0fa2",
+        "name": "Handwash",
+        "qty": 1,
+        "unit": "packet",
+        "price": 159,
+        "category": "Household",
+        "bought": false
+      }
+    ]
   }
 }
