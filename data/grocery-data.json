@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782319107129,
+  "updatedAt": 1782347303006,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -300,6 +300,15 @@
           "price": 80,
           "category": "Household",
           "bought": true
+        },
+        {
+          "id": "wm3d7cw",
+          "name": "Amsatter Aachaar",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 140,
+          "category": "Household",
+          "bought": false
         }
       ]
     }
@@ -344,6 +353,15 @@
         "price": 80,
         "category": "Household",
         "bought": true
+      },
+      {
+        "id": "wm3d7cw",
+        "name": "Amsatter Aachaar",
+        "qty": 1,
+        "unit": "bottle",
+        "price": 140,
+        "category": "Household",
+        "bought": false
       }
     ]
   }
