@@ -1,27 +1,30 @@
-/* Grocery Planner — soft neumorphism theme, vanilla CSS (no build step).
-   Single-surface (cards share the page colour) with paired light/dark shadows
-   to extrude or press elements. Palette is a fresh-produce green on warm sage. */
+/* Grocery Planner — skeuomorphic-colourful theme with Scandinavian minimalism.
+   Clean white surfaces lifted off a soft warm-grey "room" with realistic drop
+   shadows + a crisp top highlight (tactile, not flat), bright produce accents
+   used sparingly. Vanilla CSS, no build step. */
 
 :root{
-  --bg:#e7ecdf;            /* warm sage off-white — page + every surface */
-  --text:#39473c;         /* deep green-grey ink */
-  --muted:#8b988a;        /* secondary text */
-  --faint:#a7b2a4;        /* placeholders / hints */
+  --page:#ebeee9;          /* soft warm-grey light — the room behind cards */
+  --bg:#ffffff;            /* every raised surface (cards, rows, buttons) */
+  --text:#2c3a31;          /* deep green-ink */
+  --muted:#79857a;         /* secondary text */
+  --faint:#a4afa6;         /* placeholders / hints */
 
-  --accent:#5a9c6e;       /* fresh leaf green */
-  --accent-deep:#3f7d54;  /* darker green for text on light */
-  --accent-soft:#dfeadd;  /* green-tinted highlight */
-  --carrot:#e0894f;       /* warm produce accent */
-  --danger:#cf6049;       /* tomato red */
+  --accent:#4f9d6b;        /* fresh leaf green */
+  --accent-deep:#34774e;   /* darker green for text on light */
+  --accent-soft:#e2efe4;   /* green-tinted highlight */
+  --carrot:#ef8b4d;        /* warm produce accent */
+  --danger:#dd5b46;        /* tomato red */
 
-  --sh-dark:#c3cbb6;      /* neumorphic dark shadow */
-  --sh-light:#ffffff;     /* neumorphic light shadow */
+  --sh-dark:rgba(44,58,49,.14);    /* drop-shadow ink */
+  --sh-light:rgba(255,255,255,.9); /* top highlight */
+  --hair:1px solid rgba(44,58,49,.05); /* crisp Scandinavian hairline */
 
-  /* shadow recipes */
-  --raise:6px 6px 13px var(--sh-dark), -6px -6px 13px var(--sh-light);
-  --raise-sm:4px 4px 9px var(--sh-dark), -4px -4px 9px var(--sh-light);
-  --press:inset 4px 4px 8px var(--sh-dark), inset -4px -4px 8px var(--sh-light);
-  --press-sm:inset 3px 3px 6px var(--sh-dark), inset -3px -3px 6px var(--sh-light);
+  /* skeuomorphic depth: soft realistic drop shadow + crisp top highlight */
+  --raise:0 1px 2px rgba(44,58,49,.05), 0 12px 26px rgba(44,58,49,.10), inset 0 1px 0 var(--sh-light);
+  --raise-sm:0 1px 2px rgba(44,58,49,.05), 0 5px 13px rgba(44,58,49,.09), inset 0 1px 0 rgba(255,255,255,.85);
+  --press:inset 0 2px 6px rgba(44,58,49,.13), inset 0 1px 0 rgba(255,255,255,.35);
+  --press-sm:inset 0 1px 3px rgba(44,58,49,.12);
 
   --r-lg:24px; --r-md:16px; --r-sm:12px;
 }
@@ -29,7 +32,7 @@
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
-  background:var(--bg);
+  background:var(--page);
   color:var(--text);
   line-height:1.45;
   font-family:-apple-system,system-ui,"Segoe UI",sans-serif;
@@ -51,11 +54,11 @@ input:focus,select:focus{outline:none}
   position:fixed; inset:0; z-index:-1;
   overflow:hidden;
   background:
-    radial-gradient(55% 50% at 12% -5%,rgba(255,255,255,.55),transparent 68%),
-    radial-gradient(50% 45% at 92% 8%,rgba(224,137,79,.07),transparent 70%),
-    radial-gradient(65% 60% at 88% 105%,rgba(90,156,110,.13),transparent 70%),
-    radial-gradient(45% 40% at 0% 90%,rgba(90,156,110,.07),transparent 72%),
-    var(--bg);
+    radial-gradient(60% 55% at 8% -8%,rgba(79,157,107,.12),transparent 60%),
+    radial-gradient(52% 46% at 96% 4%,rgba(239,139,77,.11),transparent 64%),
+    radial-gradient(58% 52% at 90% 104%,rgba(58,158,196,.10),transparent 64%),
+    radial-gradient(50% 46% at 0% 92%,rgba(214,163,42,.09),transparent 68%),
+    var(--page);
 }
 /* slow, barely-there drifting glow on top of the static layers */
 .bg-aurora::before{
@@ -94,16 +97,18 @@ input:focus,select:focus{outline:none}
 .app-header{
   position:sticky; top:0; z-index:20;
   background:var(--bg);
-  box-shadow:0 6px 16px rgba(120,134,110,.22);
+  box-shadow:0 6px 18px rgba(44,58,49,.12);
+  border-bottom:3px solid;
+  border-image:linear-gradient(90deg,#4f9d6b,#3a9ec4,#ef8b4d,#d6a32a,#9b5bd6) 1;
   padding:calc(1rem + env(safe-area-inset-top)) clamp(1rem,4vw,1.9rem) 1rem;
   display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
 }
 .brand{display:flex; align-items:center; gap:.8rem}
 .logo{
   width:48px; height:48px; border-radius:16px;
-  background:var(--bg); color:var(--accent-deep);
+  background:linear-gradient(145deg,#5fb27e,#3a9ec4); color:#fff;
   display:flex; align-items:center; justify-content:center;
-  box-shadow:var(--raise-sm);
+  box-shadow:0 6px 14px rgba(58,158,196,.32), inset 0 1px 0 rgba(255,255,255,.45);
   animation:floaty 4s ease-in-out infinite;
 }
 .brand h1{margin:0; font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:1.45rem; letter-spacing:-.015em}
@@ -134,7 +139,8 @@ input:focus,select:focus{outline:none}
 .tab:active{transform:scale(.96)}
 .tab.active{
   color:var(--accent-deep);
-  box-shadow:var(--press);
+  background:var(--accent-soft);
+  box-shadow:var(--press-sm);
 }
 
 /* ---------- Layout ---------- */
@@ -144,6 +150,7 @@ input:focus,select:focus{outline:none}
 
 .card{
   background:var(--bg);
+  border:var(--hair);
   border-radius:var(--r-lg);
   box-shadow:var(--raise);
   padding:clamp(1.1rem,2.5vw,1.6rem); margin-bottom:1.3rem;
@@ -161,8 +168,8 @@ h2.small-h{font-size:1.1rem; margin-bottom:.6rem}
 }
 .btn-icon:hover{color:var(--accent)}
 .btn-icon:active{transform:scale(.94); box-shadow:var(--press-sm)}
-.btn-icon.primary{color:#fff; background:linear-gradient(135deg,#67ab7c,#4c8a60);
-  box-shadow:4px 4px 9px var(--sh-dark), -4px -4px 9px var(--sh-light)}
+.btn-icon.primary{color:#fff; background:linear-gradient(145deg,#5fb27e,#3f8a5b);
+  box-shadow:0 6px 14px rgba(52,119,78,.30), inset 0 1px 0 rgba(255,255,255,.4)}
 .btn-icon.primary:hover{color:#fff}
 .btn-icon.primary:active{box-shadow:var(--press-sm)}
 .btn-icon.glass{color:var(--accent-deep)}
@@ -212,7 +219,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .row{
   display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
   padding:.8rem 1rem; border-radius:var(--r-md);
-  background:var(--bg); box-shadow:var(--raise-sm);
+  background:var(--bg); border:var(--hair); box-shadow:var(--raise-sm);
   transition:box-shadow .2s; animation:rowIn .35s ease;
 }
 .row.bought{box-shadow:var(--press-sm); opacity:.75}
@@ -282,18 +289,36 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .cart-ic{display:flex}
 .totals strong{font-family:"JetBrains Mono",monospace; font-weight:600; font-size:1.65rem; color:var(--accent-deep); animation:pop .35s ease}
 
+/* ---------- Bought items (ticked → hidden from cart, record kept) ---------- */
+.bought-group{
+  margin-top:1.1rem; border-radius:var(--r-md);
+  background:var(--page); box-shadow:var(--press-sm); overflow:hidden;
+}
+.bought-group>summary{
+  list-style:none; cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:.5rem;
+  padding:.8rem 1rem; font-size:.88rem; font-weight:600; color:var(--accent-deep);
+}
+.bought-group>summary::-webkit-details-marker{display:none}
+.bought-group .bg-tick{display:flex; color:var(--accent)}
+.bought-group .bg-sum{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--muted)}
+.bought-group .bg-chev{margin-left:auto; display:flex; color:var(--muted); transition:transform .2s}
+.bought-group[open]>summary .bg-chev{transform:rotate(180deg)}
+.bought-rows{display:flex; flex-direction:column; gap:.6rem; padding:0 .8rem .85rem}
+.bought-rows .chk{cursor:pointer}
+
 /* ---------- KPIs ---------- */
 .kpi-grid{display:grid; gap:1.2rem; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); margin-bottom:1.3rem}
 .kpi{
   display:flex; flex-direction:column; gap:.3rem; border-radius:var(--r-md); padding:1.2rem 1.3rem;
-  background:var(--bg); box-shadow:var(--raise);
+  background:var(--bg); border:var(--hair); box-shadow:var(--raise-sm);
 }
 .kpi-label{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.1em; text-transform:uppercase}
 .kpi strong{font-family:"JetBrains Mono",monospace; font-weight:600; font-size:1.7rem}
-.kpi-green .kpi-label{color:var(--accent-deep)} .kpi-green strong{color:var(--accent-deep)}
-.kpi-amber .kpi-label{color:#b3742f} .kpi-amber strong{color:#c2702c}
-.kpi-blue .kpi-label{color:#3a6e96} .kpi-blue strong{color:#3a7fb0}
-.kpi-purple .kpi-label{color:#7a5aa6} .kpi-purple strong{color:#855bbf}
+.kpi-green{background:linear-gradient(160deg,#edf7f0,#fff)} .kpi-green .kpi-label{color:var(--accent-deep)} .kpi-green strong{color:var(--accent-deep)}
+.kpi-amber{background:linear-gradient(160deg,#fbf2e6,#fff)} .kpi-amber .kpi-label{color:#b3742f} .kpi-amber strong{color:#c2702c}
+.kpi-blue{background:linear-gradient(160deg,#e9f3f9,#fff)} .kpi-blue .kpi-label{color:#3a6e96} .kpi-blue strong{color:#3a7fb0}
+.kpi-purple{background:linear-gradient(160deg,#f2ecf9,#fff)} .kpi-purple .kpi-label{color:#7a5aa6} .kpi-purple strong{color:#855bbf}
 
 /* ---------- Suggestions ---------- */
 .sug-card h2{margin-bottom:1rem}

@@ -102,19 +102,26 @@
   }
 
   /** Render the current list, its rows and totals.
-      `handlers` = { onChange, onDelete, onEdit, onEditSave, onEditCancel }. */
+      `handlers` = { onChange, onDelete, onEdit, onEditSave, onEditCancel }.
+      Bought items vanish from the active cart (a clean, scannable shopping
+      list) but the record is kept — folded into a collapsible group below so
+      it can be reviewed or un-ticked, and still counts in saved lists, PDF and
+      the dashboard. */
   function renderList(store, handlers, editingId) {
     const cur = store.current;
     $('#curListName').textContent = cur.name;
     $('#storeInput').value = cur.store || '';
     $('#monthInput').value = cur.month;
 
+    // The item being edited always stays in the active list, even if bought.
+    const active = cur.items.filter((it) => !it.bought || it.id === editingId);
+    const bought = cur.items.filter((it) => it.bought && it.id !== editingId);
+
     const box = $('#itemRows');
     box.innerHTML = '';
-    $('#emptyList').style.display = cur.items.length ? 'none' : 'block';
 
     let total = 0;
-    cur.items.forEach((it) => {
+    active.forEach((it) => {
       const line = (it.qty || 0) * (it.price || 0);
       total += line;
       const el = document.createElement('div');
@@ -126,9 +133,9 @@
       }
 
       const [iconName, color] = catMeta(it.category);
-      el.className = 'row' + (it.bought ? ' bought' : '');
+      el.className = 'row';
       el.innerHTML = `
-        <input class="chk" type="checkbox" ${it.bought ? 'checked' : ''} data-act="buy" aria-label="Bought">
+        <input class="chk" type="checkbox" data-act="buy" aria-label="Bought">
         <div class="dot" style="background:${color}22;color:${color};border:1px solid ${color}40">${icon(iconName, 20)}</div>
         <div class="r-main">
           <div class="r-name">${esc(it.name)}</div>
@@ -148,8 +155,64 @@
       box.appendChild(el);
     });
 
-    $('#itemCount').textContent = cur.items.length;
+    renderBought(bought, handlers);
+
+    const empty = $('#emptyList');
+    empty.style.display = active.length ? 'none' : 'block';
+    empty.textContent = (!active.length && bought.length)
+      ? 'All bought — nicely done! 🎉'
+      : 'Your basket is empty — add something above.';
+
+    $('#itemCount').textContent = active.length;
     $('#grandTotal').textContent = money(total);
+  }
+
+  /** Render bought items as a collapsible "kept record" group below the cart.
+      Each row can be un-ticked (returns to the active list) or removed. The
+      expanded/collapsed state survives re-renders. */
+  function renderBought(items, handlers) {
+    const wrap = $('#boughtWrap');
+    if (!wrap) return;
+    if (!items.length) { wrap.innerHTML = ''; return; }
+
+    const sum = items.reduce((s, it) => s + (it.qty || 0) * (it.price || 0), 0);
+    const det = document.createElement('details');
+    det.className = 'bought-group';
+    if (wrap._open) det.open = true;
+    det.innerHTML = `
+      <summary>
+        <span class="bg-tick">${icon('check2', 18)}</span>
+        <span>${items.length} bought</span>
+        <span class="bg-sum">· ${money(sum)}</span>
+        <span class="bg-chev">${icon('chevronDown', 16)}</span>
+      </summary>
+      <div class="bought-rows"></div>`;
+
+    const rowsBox = det.querySelector('.bought-rows');
+    items.forEach((it) => {
+      const [iconName, color] = catMeta(it.category);
+      const line = (it.qty || 0) * (it.price || 0);
+      const el = document.createElement('div');
+      el.className = 'row bought';
+      el.innerHTML = `
+        <input class="chk" type="checkbox" checked data-act="buy" aria-label="Mark not bought">
+        <div class="dot" style="background:${color}22;color:${color};border:1px solid ${color}40">${icon(iconName, 20)}</div>
+        <div class="r-main">
+          <div class="r-name">${esc(it.name)}</div>
+          <div class="r-cat">${esc(it.category)}</div>
+        </div>
+        <div class="r-edit-wrap">
+          <span class="r-line">${money(line)}</span>
+          <button class="r-del" data-act="del" title="Remove" aria-label="Remove">${icon('x', 17)}</button>
+        </div>`;
+      el.querySelector('.chk').addEventListener('change', (ev) => handlers.onChange(it.id, ev));
+      el.querySelector('.r-del').addEventListener('click', () => handlers.onDelete(it.id));
+      rowsBox.appendChild(el);
+    });
+
+    det.addEventListener('toggle', () => { wrap._open = det.open; });
+    wrap.innerHTML = '';
+    wrap.appendChild(det);
   }
 
   /** Render the saved-lists view. `handlers` = { onLoad, onDelete }. */
@@ -186,9 +249,10 @@
     const curTot = listTotal(cur.items);
 
     const agg = aggregate(store.lists);
-    const { byCat, byMonth, byItem, byCatMonth, itemByMonth } = agg;
+    const { byCat, byMonth, countByMonth, byItem, byCatMonth, itemByMonth } = agg;
     const months = Object.keys(byMonth).sort();
     const lifetime = months.reduce((s, m) => s + byMonth[m], 0);
+    const totalItems = months.reduce((s, m) => s + (countByMonth[m] || 0), 0);
 
     // Hero: month-on-month spend (the headline story of the dashboard)
     renderHero(monthOnMonth(byMonth));
@@ -200,6 +264,9 @@
     $('#kpiMonths').textContent = months.length;
     $('#kpiMonthAvg').textContent = money(months.length ? lifetime / months.length : 0);
     $('#kpiLifetime').textContent = money(lifetime);
+    $('#kpiBasket').textContent = months.length ? Math.round(totalItems / months.length) : 0;
+    const proj = GP.analytics.forecast(byMonth);
+    $('#kpiForecast').textContent = money(proj || 0);
 
     // Six square charts (3×2 on desktop) ------------------------------------
 
@@ -229,6 +296,17 @@
     const series = {};
     cats.forEach((c) => { series[c] = months.map((m) => (byCatMonth[m] && byCatMonth[m][c]) || 0); });
     GP.charts.stackedBar('catTrendChart', months, cats, series);
+
+    // 4b) Cumulative spend — running lifetime total month by month
+    let run = 0;
+    const cumulative = months.map((m) => (run += byMonth[m]));
+    GP.charts.line('cumChart', months.map((m) => GP.utils.monthLabel(m)), cumulative);
+
+    // 4c) Basket size by month — how many items each month's list holds
+    GP.charts.bar('basketChart', months.map((m) => GP.utils.monthLabel(m)), months.map((m) => countByMonth[m] || 0), {
+      color: '#3a9ec4', xTitle: 'Items in basket',
+      tipLabel: (c) => c.parsed.x + (c.parsed.x === 1 ? ' item' : ' items')
+    });
 
     // 5) Buying habits — how often each item is purchased (months it appears in)
     const freq = Object.entries(byItem)

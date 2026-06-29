@@ -5,9 +5,11 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 
 **No build step, no server** — just open `index.html` (or host it anywhere static).
 
-A soft **neumorphic** UI — single-surface cards extruded with paired
-light/dark shadows on a warm sage background, a fresh-produce green palette,
-Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
+A **skeuomorphic-colourful** UI with Scandinavian minimalism — clean white
+cards lifted off a soft warm-grey "room" with realistic drop shadows and a
+crisp top highlight, bright produce accents used sparingly (a colourful header
+accent, gradient logo, tinted KPI tiles), Newsreader + JetBrains Mono type,
+and crisp inline-SVG line icons.
 
 ## Features
 - **Monthly list builder** — add items with quantity, unit, price & category.
@@ -25,12 +27,18 @@ Newsreader + JetBrains Mono type, and crisp inline-SVG line icons.
   and save under a new name. Lists live in your browser (your personal repo).
 - **Per-item editing** — edit any cart item in place (name, qty, unit, price,
   category) without removing and re-adding it.
+- **Tick-to-clear, record kept** — ticking a bought item removes it from the
+  active cart for a clean shopping view, but folds it into a collapsible
+  "bought" group (un-tick to restore) and keeps it in saved lists, the PDF and
+  every dashboard metric.
 - **PDF export** — one tap creates a tidy order sheet (item, qty, unit, with a
   tick column) to send to the grocery store.
-- **Consumption dashboard** — monthly spend trend, spend by category,
-  **category mix over time**, **per-item price trends**, buying-habit
-  frequency, top consumed items, plus **smart suggestions** (bulk-buy, rising
-  spend, price creep, waste, etc.). Charts use currency-formatted axes and
+- **Consumption dashboard** — month-on-month spend, spend by category,
+  **category mix over time**, biggest price movers, **cumulative spend** and
+  **basket-size** trends, buying-habit frequency, top consumed items, KPIs
+  (incl. **average basket size** and a **next-month spend estimate**), plus
+  **smart suggestions** and plain-language chart takeaways (priciest month,
+  fullest basket, forecast, etc.). Charts use currency-formatted axes and
   value/share tooltips.
 - **Fully responsive** — works in portrait & landscape on phones, tablets,
   laptops and desktops.
