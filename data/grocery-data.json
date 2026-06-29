@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782704645811,
+  "updatedAt": 1782758000668,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -225,6 +225,11 @@
       "unit": "packet",
       "category": "Household",
       "lastPrice": 220.15
+    },
+    "Good Knight": {
+      "unit": "packet",
+      "category": "Household",
+      "lastPrice": 165
     }
   },
   "gp_lists": {
@@ -294,7 +299,7 @@
           "unit": "kg",
           "price": 230,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "4wmdv0w",
@@ -303,7 +308,7 @@
           "unit": "packet",
           "price": 220.15,
           "category": "Household",
-          "bought": false
+          "bought": true
         },
         {
           "id": "y8jozwd",
@@ -312,7 +317,7 @@
           "unit": "packet",
           "price": 269.1,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         },
         {
           "id": "w8sz5yb",
@@ -321,10 +326,19 @@
           "unit": "packet",
           "price": 71,
           "category": "Personal Care",
+          "bought": true
+        },
+        {
+          "id": "gy9ph6z",
+          "name": "Good Knight",
+          "qty": 1,
+          "unit": "packet",
+          "price": 165,
+          "category": "Household",
           "bought": false
         }
       ],
-      "savedAt": "2026-06-29T03:41:20.489Z"
+      "savedAt": "2026-06-29T18:33:19.759Z"
     }
   },
   "gp_months": {
@@ -428,6 +442,15 @@
           "price": 71,
           "category": "Personal Care",
           "bought": true
+        },
+        {
+          "id": "gy9ph6z",
+          "name": "Good Knight",
+          "qty": 1,
+          "unit": "packet",
+          "price": 165,
+          "category": "Household",
+          "bought": false
         }
       ]
     }
@@ -526,6 +549,15 @@
         "price": 71,
         "category": "Personal Care",
         "bought": true
+      },
+      {
+        "id": "gy9ph6z",
+        "name": "Good Knight",
+        "qty": 1,
+        "unit": "packet",
+        "price": 165,
+        "category": "Household",
+        "bought": false
       }
     ]
   }
