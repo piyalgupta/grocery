@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782347303006,
+  "updatedAt": 1782704466064,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -129,7 +129,7 @@
     "Detergent": {
       "unit": "kg",
       "category": "Household",
-      "lastPrice": 120
+      "lastPrice": 230
     },
     "Dish Soap": {
       "unit": "packet",
@@ -205,6 +205,21 @@
       "unit": "packet",
       "category": "Household",
       "lastPrice": 80
+    },
+    "Nivea Me'S Dark Spot Removal Creme": {
+      "unit": "packet",
+      "category": "Household",
+      "lastPrice": 220.15
+    },
+    "Nivea Oil Control Face Wash": {
+      "unit": "packet",
+      "category": "Personal Care",
+      "lastPrice": 269.1
+    },
+    "Old Spice Lather Shaving Cream - Musk": {
+      "unit": "packet",
+      "category": "Personal Care",
+      "lastPrice": 71
     }
   },
   "gp_lists": {
@@ -309,6 +324,51 @@
           "price": 140,
           "category": "Household",
           "bought": false
+        },
+        {
+          "id": "in6fyri",
+          "name": "Chicken",
+          "qty": 1,
+          "unit": "kg",
+          "price": 229,
+          "category": "Dairy",
+          "bought": false
+        },
+        {
+          "id": "qfrorwj",
+          "name": "Detergent",
+          "qty": 1,
+          "unit": "kg",
+          "price": 230,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "4wmdv0w",
+          "name": "Nivea Me'S Dark Spot Removal Creme",
+          "qty": 1,
+          "unit": "packet",
+          "price": 220.15,
+          "category": "Household",
+          "bought": false
+        },
+        {
+          "id": "y8jozwd",
+          "name": "Nivea Oil Control Face Wash",
+          "qty": 1,
+          "unit": "packet",
+          "price": 269.1,
+          "category": "Personal Care",
+          "bought": false
+        },
+        {
+          "id": "w8sz5yb",
+          "name": "Old Spice Lather Shaving Cream - Musk",
+          "qty": 1,
+          "unit": "packet",
+          "price": 71,
+          "category": "Personal Care",
+          "bought": false
         }
       ]
     }
@@ -361,6 +421,51 @@
         "unit": "bottle",
         "price": 140,
         "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "in6fyri",
+        "name": "Chicken",
+        "qty": 1,
+        "unit": "kg",
+        "price": 229,
+        "category": "Dairy",
+        "bought": false
+      },
+      {
+        "id": "qfrorwj",
+        "name": "Detergent",
+        "qty": 1,
+        "unit": "kg",
+        "price": 230,
+        "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "4wmdv0w",
+        "name": "Nivea Me'S Dark Spot Removal Creme",
+        "qty": 1,
+        "unit": "packet",
+        "price": 220.15,
+        "category": "Household",
+        "bought": false
+      },
+      {
+        "id": "y8jozwd",
+        "name": "Nivea Oil Control Face Wash",
+        "qty": 1,
+        "unit": "packet",
+        "price": 269.1,
+        "category": "Personal Care",
+        "bought": false
+      },
+      {
+        "id": "w8sz5yb",
+        "name": "Old Spice Lather Shaving Cream - Musk",
+        "qty": 1,
+        "unit": "packet",
+        "price": 71,
+        "category": "Personal Care",
         "bought": false
       }
     ]
