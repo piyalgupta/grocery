@@ -106,6 +106,7 @@
           <span class="muted small">Tick items once bought</span>
         </div>
         <div id="itemRows" class="rows"></div>
+        <div id="boughtWrap"></div>
         <div id="emptyList" class="empty">Your basket is empty — add something above.</div>
         <div class="totals">
           <span class="totals-label"><span id="cartIc" class="cart-ic" aria-hidden="true"></span> Estimated total</span>
@@ -155,13 +156,17 @@
         <div class="kpi kpi-purple"><span class="kpi-label">Saved months</span><strong id="kpiMonths">0</strong></div>
         <div class="kpi kpi-green"><span class="kpi-label">Avg / month</span><strong id="kpiMonthAvg">₹0</strong></div>
         <div class="kpi kpi-blue"><span class="kpi-label">Lifetime spend</span><strong id="kpiLifetime">₹0</strong></div>
+        <div class="kpi kpi-amber"><span class="kpi-label">Avg basket</span><strong id="kpiBasket">0</strong></div>
+        <div class="kpi kpi-purple"><span class="kpi-label">Next month est.</span><strong id="kpiForecast">₹0</strong></div>
       </div>
 
-      <div class="chart-grid charts-6">
+      <div class="chart-grid charts-8">
         <div class="card"><h2 class="serif small-h">Spend by category</h2><p class="chart-note">Where the budget splits</p><div class="chart-box"><canvas id="catChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Where your money goes</h2><p class="chart-note">Top items by total spend</p><div class="chart-box"><canvas id="spendChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Biggest price movers</h2><p class="chart-note">Unit-price change · first → latest month</p><div class="chart-box"><canvas id="moverChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Category spend over time</h2><p class="chart-note">How your basket mix shifts</p><div class="chart-box"><canvas id="catTrendChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Cumulative spend</h2><p class="chart-note">Running total across months</p><div class="chart-box"><canvas id="cumChart"></canvas></div></div>
+        <div class="card"><h2 class="serif small-h">Basket size by month</h2><p class="chart-note">Items planned each month</p><div class="chart-box"><canvas id="basketChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Buying habits · most frequent</h2><p class="chart-note">Months each item appears in</p><div class="chart-box"><canvas id="freqChart"></canvas></div></div>
         <div class="card"><h2 class="serif small-h">Top consumed items</h2><p class="chart-note">Total quantity bought</p><div class="chart-box"><canvas id="topChart"></canvas></div></div>
       </div>

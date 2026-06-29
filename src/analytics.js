@@ -101,13 +101,24 @@
   }
 
   /**
+   * Simple next-month spend projection: the average of the most recent (up to
+   * three) months' spend. Returns null when there's no saved history yet.
+   */
+  function forecast(byMonth) {
+    const months = Object.keys(byMonth).sort();
+    if (!months.length) return null;
+    const recent = months.slice(-3);
+    return recent.reduce((s, m) => s + byMonth[m], 0) / recent.length;
+  }
+
+  /**
    * Plain-language readouts of what each chart is showing — the "headline"
    * behind every graph (top category, biggest spend, fastest-rising price…).
    * Returns [{ icon, label, text }] for the dashboard insights panel.
    */
   function chartInsights(agg) {
-    const { money } = GP.utils;
-    const { byCat, byItem, byMonth } = agg;
+    const { money, monthLabel } = GP.utils;
+    const { byCat, byItem, byMonth, countByMonth } = agg;
     const out = [];
     if (!Object.keys(byMonth).length) return out;
 
@@ -132,6 +143,17 @@
     if (up) out.push({ icon: 'flame', label: 'Fastest-rising price', text: `${up.name} — +${up.pct}% (${money(up.first)} → ${money(up.last)})` });
     const down = movers.find((m) => m.pct < 0);
     if (down) out.push({ icon: 'check', label: 'Best price drop', text: `${down.name} — ${down.pct}% (${money(down.first)} → ${money(down.last)})` });
+
+    const monthEntries = Object.entries(byMonth);
+    if (monthEntries.length >= 2) {
+      const [pm, pv] = monthEntries.slice().sort((a, b) => b[1] - a[1])[0];
+      out.push({ icon: 'wallet', label: 'Priciest month', text: `${monthLabel(pm)} — ${money(pv)} spent` });
+      const busiest = Object.entries(countByMonth).sort((a, b) => b[1] - a[1])[0];
+      if (busiest) out.push({ icon: 'list', label: 'Fullest basket', text: `${monthLabel(busiest[0])} — ${busiest[1]} items` });
+    }
+
+    const f = forecast(byMonth);
+    if (f != null) out.push({ icon: 'trendingUp', label: 'Next month (est.)', text: `≈ ${money(f)} on your recent average` });
 
     return out;
   }
@@ -201,5 +223,5 @@
     return { empty: false, items: out.slice(0, 6) };
   }
 
-  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth, priceMovers, chartInsights };
+  GP.analytics = { listTotal, aggregate, avgPrice, suggestions, monthOnMonth, priceMovers, chartInsights, forecast };
 })(window.GP = window.GP || {});
