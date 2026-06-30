@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782799399977,
+  "updatedAt": 1782801059136,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -230,6 +230,26 @@
       "unit": "packet",
       "category": "Household",
       "lastPrice": 165
+    },
+    "Dahi": {
+      "unit": "packet",
+      "category": "Vegetables",
+      "lastPrice": 40
+    },
+    "Dermicool Powder": {
+      "unit": "bottle",
+      "category": "Personal Care",
+      "lastPrice": 150.35
+    },
+    "Ponds Talcum Powder": {
+      "unit": "bottle",
+      "category": "Personal Care",
+      "lastPrice": 117
+    },
+    "Tata Gold Tea": {
+      "unit": "g",
+      "category": "Personal Care",
+      "lastPrice": 134
     }
   },
   "gp_lists": {
@@ -363,9 +383,36 @@
           "price": 30,
           "category": "Snacks",
           "bought": true
+        },
+        {
+          "id": "16bq7tz",
+          "name": "Dermicool Powder",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 150.35,
+          "category": "Personal Care",
+          "bought": false
+        },
+        {
+          "id": "qrpyedq",
+          "name": "Ponds Talcum Powder",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 117,
+          "category": "Personal Care",
+          "bought": false
+        },
+        {
+          "id": "gidkf0j",
+          "name": "Tata Gold Tea",
+          "qty": 250,
+          "unit": "g",
+          "price": 134,
+          "category": "Personal Care",
+          "bought": false
         }
       ],
-      "savedAt": "2026-06-30T06:03:19.189Z"
+      "savedAt": "2026-06-30T06:30:29.282Z"
     }
   },
   "gp_months": {
@@ -505,6 +552,33 @@
           "price": 30,
           "category": "Snacks",
           "bought": true
+        },
+        {
+          "id": "16bq7tz",
+          "name": "Dermicool Powder",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 150.35,
+          "category": "Personal Care",
+          "bought": false
+        },
+        {
+          "id": "qrpyedq",
+          "name": "Ponds Talcum Powder",
+          "qty": 1,
+          "unit": "bottle",
+          "price": 117,
+          "category": "Personal Care",
+          "bought": false
+        },
+        {
+          "id": "gidkf0j",
+          "name": "Tata Gold Tea",
+          "qty": 250,
+          "unit": "g",
+          "price": 134,
+          "category": "Personal Care",
+          "bought": false
         }
       ]
     },
@@ -645,6 +719,33 @@
         "price": 30,
         "category": "Snacks",
         "bought": true
+      },
+      {
+        "id": "16bq7tz",
+        "name": "Dermicool Powder",
+        "qty": 1,
+        "unit": "bottle",
+        "price": 150.35,
+        "category": "Personal Care",
+        "bought": false
+      },
+      {
+        "id": "qrpyedq",
+        "name": "Ponds Talcum Powder",
+        "qty": 1,
+        "unit": "bottle",
+        "price": 117,
+        "category": "Personal Care",
+        "bought": false
+      },
+      {
+        "id": "gidkf0j",
+        "name": "Tata Gold Tea",
+        "qty": 250,
+        "unit": "g",
+        "price": 134,
+        "category": "Personal Care",
+        "bought": false
       }
     ]
   }
