@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782760043704,
+  "updatedAt": 1782787143302,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -284,15 +284,6 @@
           "bought": false
         },
         {
-          "id": "in6fyri",
-          "name": "Chicken",
-          "qty": 1,
-          "unit": "kg",
-          "price": 229,
-          "category": "Dairy",
-          "bought": false
-        },
-        {
           "id": "qfrorwj",
           "name": "Detergent",
           "qty": 1,
@@ -338,7 +329,7 @@
           "bought": false
         }
       ],
-      "savedAt": "2026-06-29T19:07:22.903Z"
+      "savedAt": "2026-06-30T02:39:02.440Z"
     }
   },
   "gp_months": {
@@ -396,15 +387,6 @@
           "unit": "bottle",
           "price": 140,
           "category": "Household",
-          "bought": false
-        },
-        {
-          "id": "in6fyri",
-          "name": "Chicken",
-          "qty": 1,
-          "unit": "kg",
-          "price": 229,
-          "category": "Dairy",
           "bought": false
         },
         {
@@ -503,15 +485,6 @@
         "unit": "bottle",
         "price": 140,
         "category": "Household",
-        "bought": false
-      },
-      {
-        "id": "in6fyri",
-        "name": "Chicken",
-        "qty": 1,
-        "unit": "kg",
-        "price": 229,
-        "category": "Dairy",
         "bought": false
       },
       {
