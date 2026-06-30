@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801310482,
+  "updatedAt": 1782801333823,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -42,7 +42,7 @@
       "lastPrice": 70
     },
     "Paneer": {
-      "unit": "g",
+      "unit": "packet",
       "category": "Dairy",
       "lastPrice": 60
     },
@@ -374,8 +374,8 @@
         {
           "id": "tpxan0n",
           "name": "Paneer",
-          "qty": 200,
-          "unit": "g",
+          "qty": 1,
+          "unit": "packet",
           "price": 60,
           "category": "Dairy",
           "bought": true
@@ -426,7 +426,7 @@
           "bought": true
         }
       ],
-      "savedAt": "2026-06-30T06:34:42.792Z"
+      "savedAt": "2026-06-30T06:35:33.186Z"
     }
   },
   "gp_months": {
@@ -552,11 +552,11 @@
         {
           "id": "tpxan0n",
           "name": "Paneer",
-          "qty": 20,
-          "unit": "g",
+          "qty": 1,
+          "unit": "packet",
           "price": 60,
           "category": "Dairy",
-          "bought": false
+          "bought": true
         },
         {
           "id": "kqqk0tx",
@@ -728,11 +728,11 @@
       {
         "id": "tpxan0n",
         "name": "Paneer",
-        "qty": 20,
-        "unit": "g",
+        "qty": 1,
+        "unit": "packet",
         "price": 60,
         "category": "Dairy",
-        "bought": false
+        "bought": true
       },
       {
         "id": "kqqk0tx",
