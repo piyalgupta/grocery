@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782787143302,
+  "updatedAt": 1782788133935,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -329,7 +329,7 @@
           "bought": false
         }
       ],
-      "savedAt": "2026-06-30T02:39:02.440Z"
+      "savedAt": "2026-06-30T02:55:33.248Z"
     }
   },
   "gp_months": {
@@ -435,6 +435,12 @@
           "bought": false
         }
       ]
+    },
+    "2026-08": {
+      "name": "Untitled",
+      "month": "2026-08",
+      "store": "",
+      "items": []
     }
   },
   "gp_current": {
