@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801232697,
+  "updatedAt": 1782801283695,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -247,7 +247,7 @@
       "lastPrice": 117
     },
     "Tata Gold Tea": {
-      "unit": "g",
+      "unit": "packet",
       "category": "Personal Care",
       "lastPrice": 134
     },
@@ -410,8 +410,8 @@
         {
           "id": "gidkf0j",
           "name": "Tata Gold Tea",
-          "qty": 250,
-          "unit": "g",
+          "qty": 1,
+          "unit": "packet",
           "price": 134,
           "category": "Personal Care",
           "bought": true
@@ -423,10 +423,10 @@
           "unit": "bottle",
           "price": 199,
           "category": "Snacks",
-          "bought": false
+          "bought": true
         }
       ],
-      "savedAt": "2026-06-30T06:33:51.757Z"
+      "savedAt": "2026-06-30T06:34:42.792Z"
     }
   },
   "gp_months": {
@@ -588,8 +588,8 @@
         {
           "id": "gidkf0j",
           "name": "Tata Gold Tea",
-          "qty": 250,
-          "unit": "g",
+          "qty": 1,
+          "unit": "packet",
           "price": 134,
           "category": "Personal Care",
           "bought": true
@@ -601,7 +601,7 @@
           "unit": "bottle",
           "price": 199,
           "category": "Snacks",
-          "bought": false
+          "bought": true
         }
       ]
     },
@@ -764,8 +764,8 @@
       {
         "id": "gidkf0j",
         "name": "Tata Gold Tea",
-        "qty": 250,
-        "unit": "g",
+        "qty": 1,
+        "unit": "packet",
         "price": 134,
         "category": "Personal Care",
         "bought": true
@@ -777,7 +777,7 @@
         "unit": "bottle",
         "price": 199,
         "category": "Snacks",
-        "bought": false
+        "bought": true
       }
     ]
   }
