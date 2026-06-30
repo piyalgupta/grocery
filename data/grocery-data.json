@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801075362,
+  "updatedAt": 1782801172988,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -250,6 +250,11 @@
       "unit": "g",
       "category": "Personal Care",
       "lastPrice": 134
+    },
+    "Kissan Mixed Fruit Jam": {
+      "unit": "g",
+      "category": "Snacks",
+      "lastPrice": 199
     }
   },
   "gp_lists": {
@@ -410,9 +415,18 @@
           "price": 134,
           "category": "Personal Care",
           "bought": true
+        },
+        {
+          "id": "ffjrkvj",
+          "name": "Kissan Mixed Fruit Jam",
+          "qty": 500,
+          "unit": "g",
+          "price": 199,
+          "category": "Snacks",
+          "bought": false
         }
       ],
-      "savedAt": "2026-06-30T06:31:14.613Z"
+      "savedAt": "2026-06-30T06:32:51.963Z"
     }
   },
   "gp_months": {
@@ -579,6 +593,15 @@
           "price": 134,
           "category": "Personal Care",
           "bought": true
+        },
+        {
+          "id": "ffjrkvj",
+          "name": "Kissan Mixed Fruit Jam",
+          "qty": 500,
+          "unit": "g",
+          "price": 199,
+          "category": "Snacks",
+          "bought": false
         }
       ]
     },
@@ -746,6 +769,15 @@
         "price": 134,
         "category": "Personal Care",
         "bought": true
+      },
+      {
+        "id": "ffjrkvj",
+        "name": "Kissan Mixed Fruit Jam",
+        "qty": 500,
+        "unit": "g",
+        "price": 199,
+        "category": "Snacks",
+        "bought": false
       }
     ]
   }
