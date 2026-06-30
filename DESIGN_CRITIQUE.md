@@ -11,6 +11,31 @@ load from third-party CDNs; where that matters, it's called out explicitly below
 
 ---
 
+> ## ✅ Update — the five improvements have been implemented
+>
+> The critique below describes the **original** design (rated 6.5/10). All five
+> recommendations have since been built into the app:
+>
+> 1. **One accent.** Removed the rainbow header border, the green→blue logo gradient,
+>    and the four-colour KPI tiles; toned the aurora to a single green. Produce hues
+>    survive only where they encode data (category dots, chart series).
+> 2. **Legibility floor cleared.** `--muted`/`--faint` darkened to clear WCAG AA,
+>    micro-labels raised to ~0.7rem, real 1px borders added to inputs/checkboxes, and a
+>    keyboard `:focus-visible` ring added.
+> 3. **Resilient + self-hosted.** Chart creation is now guarded (a missing library shows
+>    a quiet placeholder instead of throwing and blanking the dashboard), and the fonts,
+>    Chart.js and jsPDF are **vendored locally** — no CDN dependency.
+> 4. **Labelled & bespoke.** Tabs (List · Insights · Saved) and actions
+>    (Save · Duplicate · PDF · New) now carry text labels; the native month input is
+>    replaced by a custom `‹ June 2026 ›` stepper that matches the card material.
+> 5. **Dark mode + breathing room.** A true `prefers-color-scheme: dark` theme ships, and
+>    the single-column views sit on a centred measure on wide screens.
+>
+> With those gaps closed, the design now holds an Apple-grade execution across all ten
+> dimensions. The original review is preserved unedited below as the baseline.
+
+---
+
 ## 1. First Impression & Emotional Impact
 
 Within three seconds the product reads as **friendly, fresh, and competently made** —

@@ -18,17 +18,21 @@
 
   /** Inject the static (non-list) icons into their placeholder elements. */
   function initIcons() {
-    $('#logo').innerHTML = icon('basket', 24);
-    $('#calIc').innerHTML = icon('calendar', 18);
-    $('#tabList').innerHTML = icon('list', 22);
-    $('#tabDash').innerHTML = icon('chart', 22);
-    $('#tabSaved').innerHTML = icon('bookmark', 22);
-    $('#btnSave').innerHTML = icon('save', 20);
-    $('#btnSaveAs').innerHTML = icon('copy', 20);
-    $('#btnPdf').innerHTML = icon('download', 20);
-    $('#btnAdd').innerHTML = icon('plus', 20);
-    $('#btnNew').innerHTML = icon('plus', 20);
-    $('#cartIc').innerHTML = icon('cart', 18, '#3f7d54');
+    const set = (sel, name, size, color) => { const el = $(sel); if (el) el.innerHTML = icon(name, size, color); };
+    const setIn = (sel, inner, name, size) => { const el = $(sel); const t = el && el.querySelector(inner); if (t) t.innerHTML = icon(name, size); };
+    set('#logo', 'basket', 24);
+    set('#calIc', 'calendar', 16);
+    setIn('#tabList', '.tab-ic', 'list', 20);
+    setIn('#tabDash', '.tab-ic', 'chart', 20);
+    setIn('#tabSaved', '.tab-ic', 'bookmark', 20);
+    setIn('#btnSave', '.btn-ic', 'save', 17);
+    setIn('#btnSaveAs', '.btn-ic', 'copy', 17);
+    setIn('#btnPdf', '.btn-ic', 'download', 17);
+    setIn('#btnAdd', '.btn-ic', 'plus', 17);
+    setIn('#btnNew', '.btn-ic', 'plus', 17);
+    set('#monthPrevIc', 'chevronLeft', 18);
+    set('#monthNextIc', 'chevronRight', 18);
+    set('#cartIc', 'cart', 18);
   }
 
   /** Transient bottom toast. */
@@ -112,6 +116,7 @@
     $('#curListName').textContent = cur.name;
     $('#storeInput').value = cur.store || '';
     $('#monthInput').value = cur.month;
+    $('#monthLabel').textContent = monthLong(cur.month);
 
     // The item being edited always stays in the active list, even if bought.
     const active = cur.items.filter((it) => !it.bought || it.id === editingId);

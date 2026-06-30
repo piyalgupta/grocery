@@ -2,6 +2,9 @@
 (function (GP) {
   'use strict';
 
+  /** Whether the jsPDF library is loaded and ready. */
+  function ready() { return !!(window.jspdf && window.jspdf.jsPDF); }
+
   /** Render the given list to a downloadable PDF order sheet. */
   function exportList(list) {
     const { jsPDF } = window.jspdf;
@@ -30,5 +33,5 @@
     doc.save((list.name || 'grocery').replace(/\s+/g, '_') + '.pdf');
   }
 
-  GP.pdf = { exportList };
+  GP.pdf = { exportList, ready };
 })(window.GP = window.GP || {});

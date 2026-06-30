@@ -62,7 +62,9 @@
     sparkles: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
     pencil: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
     check2: '<path d="M20 6 9 17l-5-5"/>',
-    chevronDown: '<path d="m6 9 6 6 6-6"/>'
+    chevronDown: '<path d="m6 9 6 6 6-6"/>',
+    chevronLeft: '<path d="m15 18-6-6 6-6"/>',
+    chevronRight: '<path d="m9 18 6-6-6-6"/>'
   };
 
   // Seed catalog: name -> [unit, category, lastPrice]

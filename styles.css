@@ -6,19 +6,22 @@
 :root{
   --page:#ebeee9;          /* soft warm-grey light — the room behind cards */
   --bg:#ffffff;            /* every raised surface (cards, rows, buttons) */
-  --text:#2c3a31;          /* deep green-ink */
-  --muted:#79857a;         /* secondary text */
-  --faint:#a4afa6;         /* placeholders / hints */
+  --text:#26332b;          /* deep green-ink */
+  --muted:#55635b;         /* secondary text — clears WCAG AA (≈4.8:1) */
+  --faint:#74817a;         /* placeholders / hints — far above the old #a4afa6 */
 
-  --accent:#4f9d6b;        /* fresh leaf green */
-  --accent-deep:#34774e;   /* darker green for text on light */
+  --accent:#4f9d6b;        /* fresh leaf green — the one brand accent */
+  --accent-deep:#2f6b46;   /* darker green for text on light */
   --accent-soft:#e2efe4;   /* green-tinted highlight */
-  --carrot:#ef8b4d;        /* warm produce accent */
-  --danger:#dd5b46;        /* tomato red */
+  --warn:#a86523;          /* the single caution hue (spending up) */
+  --danger:#c44a35;        /* tomato red — destructive actions only */
+
+  --btn-border:rgba(44,58,49,.10);   /* control edge — affordance in daylight */
+  --field-border:rgba(44,58,49,.13); /* input edge — slightly stronger */
 
   --sh-dark:rgba(44,58,49,.14);    /* drop-shadow ink */
   --sh-light:rgba(255,255,255,.9); /* top highlight */
-  --hair:1px solid rgba(44,58,49,.05); /* crisp Scandinavian hairline */
+  --hair:1px solid rgba(44,58,49,.06); /* crisp Scandinavian hairline */
 
   /* skeuomorphic depth: soft realistic drop shadow + crisp top highlight */
   --raise:0 1px 2px rgba(44,58,49,.05), 0 12px 26px rgba(44,58,49,.10), inset 0 1px 0 var(--sh-light);
@@ -27,6 +30,35 @@
   --press-sm:inset 0 1px 3px rgba(44,58,49,.12);
 
   --r-lg:24px; --r-md:16px; --r-sm:12px;
+}
+
+/* ===================== Dark mode =====================================
+   A true dark theme: a deep green-charcoal "room", lifted surfaces, the same
+   single-accent logic. Most components inherit via the tokens above. */
+@media (prefers-color-scheme:dark){
+  :root{
+    --page:#0f1c17;
+    --bg:#17251e;
+    --text:#e8efe9;
+    --muted:#9db0a4;       /* ≈5.5:1 on --bg */
+    --faint:#7f9085;
+    --accent:#5cc07e;
+    --accent-deep:#86dca2; /* light green for text on dark */
+    --accent-soft:#21372b;
+    --warn:#e0a25c;
+    --danger:#ec8068;
+
+    --btn-border:rgba(255,255,255,.09);
+    --field-border:rgba(255,255,255,.12);
+
+    --sh-light:rgba(255,255,255,.04);
+    --hair:1px solid rgba(255,255,255,.07);
+
+    --raise:0 1px 2px rgba(0,0,0,.4), 0 12px 26px rgba(0,0,0,.45), inset 0 1px 0 var(--sh-light);
+    --raise-sm:0 1px 2px rgba(0,0,0,.35), 0 5px 13px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.04);
+    --press:inset 0 2px 6px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.03);
+    --press-sm:inset 0 1px 3px rgba(0,0,0,.45);
+  }
 }
 
 *{box-sizing:border-box}
@@ -41,6 +73,10 @@ body{
 }
 input,select,button{font:inherit; color:inherit}
 input:focus,select:focus{outline:none}
+/* Clear keyboard-only focus ring (mouse focus stays clean). */
+input:focus-visible,select:focus-visible,button:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px;
+}
 ::selection{background:var(--accent-soft)}
 
 .serif{font-family:"Newsreader",Georgia,serif; font-weight:600; letter-spacing:-.01em}
@@ -55,10 +91,20 @@ input:focus,select:focus{outline:none}
   overflow:hidden;
   background:
     radial-gradient(60% 55% at 8% -8%,rgba(79,157,107,.12),transparent 60%),
-    radial-gradient(52% 46% at 96% 4%,rgba(239,139,77,.11),transparent 64%),
-    radial-gradient(58% 52% at 90% 104%,rgba(58,158,196,.10),transparent 64%),
-    radial-gradient(50% 46% at 0% 92%,rgba(214,163,42,.09),transparent 68%),
+    radial-gradient(52% 46% at 96% 4%,rgba(79,157,107,.07),transparent 64%),
+    radial-gradient(58% 52% at 90% 104%,rgba(79,157,107,.06),transparent 64%),
+    radial-gradient(50% 46% at 0% 92%,rgba(120,150,130,.06),transparent 68%),
     var(--page);
+}
+@media (prefers-color-scheme:dark){
+  .bg-aurora{
+    background:
+      radial-gradient(60% 55% at 8% -8%,rgba(92,192,126,.10),transparent 60%),
+      radial-gradient(52% 46% at 96% 4%,rgba(92,192,126,.06),transparent 64%),
+      radial-gradient(58% 52% at 90% 104%,rgba(92,192,126,.05),transparent 64%),
+      var(--page);
+  }
+  .bg-aurora::after{opacity:.05}
 }
 /* slow, barely-there drifting glow on top of the static layers */
 .bg-aurora::before{
@@ -97,54 +143,82 @@ input:focus,select:focus{outline:none}
 .app-header{
   position:sticky; top:0; z-index:20;
   background:var(--bg);
-  box-shadow:0 6px 18px rgba(44,58,49,.12);
-  border-bottom:3px solid;
-  border-image:linear-gradient(90deg,#4f9d6b,#3a9ec4,#ef8b4d,#d6a32a,#9b5bd6) 1;
+  box-shadow:0 6px 18px var(--sh-dark);
+  border-bottom:var(--hair);
   padding:calc(1rem + env(safe-area-inset-top)) clamp(1rem,4vw,1.9rem) 1rem;
   display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
 }
 .brand{display:flex; align-items:center; gap:.8rem}
 .logo{
   width:48px; height:48px; border-radius:16px;
-  background:linear-gradient(145deg,#5fb27e,#3a9ec4); color:#fff;
+  background:linear-gradient(145deg,#5fb27e,#3f8a5b); color:#fff;
   display:flex; align-items:center; justify-content:center;
-  box-shadow:0 6px 14px rgba(58,158,196,.32), inset 0 1px 0 rgba(255,255,255,.45);
+  box-shadow:0 6px 14px rgba(52,119,78,.32), inset 0 1px 0 rgba(255,255,255,.45);
   animation:floaty 4s ease-in-out infinite;
 }
 .brand h1{margin:0; font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:1.45rem; letter-spacing:-.015em}
 .tagline{
-  margin:0; font-family:"JetBrains Mono",monospace; font-size:.6rem;
-  letter-spacing:.2em; color:var(--muted); text-transform:uppercase;
+  margin:0; font-family:"JetBrains Mono",monospace; font-size:.66rem;
+  letter-spacing:.16em; color:var(--muted); text-transform:uppercase;
 }
-.month-pick{display:flex; align-items:center; gap:.55rem}
+
+/* ---- Month stepper (bespoke control, not the native month input) ---- */
+.month-pick{display:flex; align-items:center; gap:.4rem}
 .cal-ic{color:var(--muted); display:flex}
-.month-pick input{
-  border:none; border-radius:var(--r-sm); padding:.55rem .8rem;
-  font-family:"JetBrains Mono",monospace; font-size:.85rem;
-  background:var(--bg); box-shadow:var(--press-sm); color:var(--text);
+.month-nav{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:38px; border-radius:10px; cursor:pointer;
+  border:1px solid var(--btn-border); background:var(--bg); color:var(--muted);
+  box-shadow:var(--raise-sm); transition:box-shadow .15s, transform .12s, color .15s;
+}
+.month-nav:hover{color:var(--accent-deep)}
+.month-nav:active{transform:scale(.92); box-shadow:var(--press-sm)}
+.month-display{
+  position:relative; display:flex; align-items:center; gap:.45rem;
+  height:38px; padding:0 .85rem; border-radius:var(--r-sm);
+  border:1px solid var(--field-border); background:var(--bg); box-shadow:var(--press-sm);
+}
+.month-text{font-family:"JetBrains Mono",monospace; font-size:.82rem; color:var(--text); white-space:nowrap}
+/* the real <input type="month"> sits invisibly on top so any month is still
+   reachable (click opens the OS picker, Tab+arrows still work) */
+.month-native{
+  position:absolute; inset:0; width:100%; height:100%;
+  opacity:0; cursor:pointer; border:none; background:transparent; box-shadow:none;
 }
 
 /* ---------- Tabs ---------- */
 .tabs{
   position:sticky; top:0; z-index:15;
-  display:flex; justify-content:center; gap:.8rem; padding:1.1rem 1rem;
+  display:flex; justify-content:center; gap:.6rem; padding:1.1rem 1rem;
 }
 .tab{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:56px; height:50px; border-radius:var(--r-md); cursor:pointer;
-  transition:box-shadow .25s, color .25s, transform .12s;
-  border:none; background:var(--bg); color:var(--muted);
+  display:inline-flex; align-items:center; gap:.5rem;
+  height:46px; padding:0 1.05rem; border-radius:var(--r-md); cursor:pointer;
+  transition:box-shadow .25s, color .25s, transform .12s, background .25s;
+  border:1px solid var(--btn-border); background:var(--bg); color:var(--muted);
   box-shadow:var(--raise-sm);
+  font-family:"JetBrains Mono",monospace; font-size:.78rem; font-weight:500; letter-spacing:.01em;
 }
-.tab:active{transform:scale(.96)}
+.tab .tab-ic{display:flex}
+.tab:active{transform:scale(.97)}
 .tab.active{
   color:var(--accent-deep);
   background:var(--accent-soft);
+  border-color:transparent;
   box-shadow:var(--press-sm);
+}
+@media(max-width:380px){
+  .tab .tab-label{display:none}
+  .tab{padding:0; width:50px; justify-content:center}
 }
 
 /* ---------- Layout ---------- */
 .container{max-width:1060px; margin:0 auto; padding:clamp(.7rem,3vw,1.5rem)}
+/* The single-column List & Saved views read as an intentional, centred measure
+   on wide screens, so the surrounding space feels like margin, not emptiness. */
+@media(min-width:1000px){
+  #view-list,#view-saved{max-width:880px; margin-inline:auto}
+}
 .view{display:none}
 .view.active{display:block; animation:fadeUp .4s ease}
 
@@ -158,28 +232,42 @@ input:focus,select:focus{outline:none}
 h2.serif{margin:0; font-size:1.25rem}
 h2.small-h{font-size:1.1rem; margin-bottom:.6rem}
 
-/* ---------- Icon buttons ---------- */
+/* ---------- Labelled buttons (icon + text) ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.45rem;
+  height:44px; padding:0 1.05rem; border-radius:var(--r-sm); cursor:pointer;
+  border:1px solid var(--btn-border); background:var(--bg); color:var(--accent-deep);
+  font-family:"JetBrains Mono",monospace; font-size:.8rem; font-weight:500; letter-spacing:.01em;
+  white-space:nowrap;
+  transition:box-shadow .18s, transform .12s, color .18s;
+  box-shadow:var(--raise-sm);
+}
+.btn .btn-ic{display:flex}
+.btn:hover{color:var(--accent)}
+.btn:active{transform:scale(.96); box-shadow:var(--press-sm)}
+.btn.primary{color:#fff; border-color:transparent; background:linear-gradient(145deg,#5fb27e,#3f8a5b);
+  box-shadow:0 6px 14px rgba(52,119,78,.30), inset 0 1px 0 rgba(255,255,255,.4)}
+.btn.primary:hover{color:#fff}
+.btn.primary:active{box-shadow:var(--press-sm)}
+.btn.ghost{color:var(--accent-deep)}
+
+/* Compact icon-only buttons for dense row actions (e.g. saved-list Load / Delete). */
 .btn-icon{
   display:inline-flex; align-items:center; justify-content:center;
-  width:46px; height:46px; border-radius:var(--r-sm); cursor:pointer;
-  border:none; background:var(--bg);
-  transition:box-shadow .18s, transform .12s, color .18s;
-  box-shadow:var(--raise-sm); color:var(--accent-deep);
+  width:40px; height:40px; border-radius:10px; cursor:pointer; flex:none;
+  border:1px solid var(--btn-border); background:var(--bg); color:var(--accent-deep);
+  box-shadow:var(--raise-sm); transition:box-shadow .15s, transform .12s, color .15s;
 }
 .btn-icon:hover{color:var(--accent)}
-.btn-icon:active{transform:scale(.94); box-shadow:var(--press-sm)}
-.btn-icon.primary{color:#fff; background:linear-gradient(145deg,#5fb27e,#3f8a5b);
-  box-shadow:0 6px 14px rgba(52,119,78,.30), inset 0 1px 0 rgba(255,255,255,.4)}
-.btn-icon.primary:hover{color:#fff}
-.btn-icon.primary:active{box-shadow:var(--press-sm)}
+.btn-icon:active{transform:scale(.93); box-shadow:var(--press-sm)}
 .btn-icon.glass{color:var(--accent-deep)}
 .btn-icon.danger{color:var(--danger)}
 
 /* ---------- Inputs ---------- */
 input[type=text],input[type=number],input[type=month],select{
-  border:none; border-radius:var(--r-sm); padding:.7rem .9rem;
+  border:1px solid var(--field-border); border-radius:var(--r-sm); padding:.7rem .9rem;
   background:var(--bg); box-shadow:var(--press-sm); color:var(--text); font-size:.95rem;
-  transition:box-shadow .18s;
+  transition:box-shadow .18s, border-color .18s;
 }
 input[type=text]:focus,input[type=number]:focus,input[type=month]:focus,select:focus{
   box-shadow:var(--press-sm), 0 0 0 2px var(--accent-soft);
@@ -190,7 +278,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 /* ---------- Current list bar ---------- */
 .current-bar{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap}
 .cur-name{display:flex; flex-direction:column; gap:.12rem}
-.eyebrow{font-family:"JetBrains Mono",monospace; font-size:.58rem; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
+.eyebrow{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.1em; color:var(--muted); text-transform:uppercase}
 .cur-name strong{font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:1.5rem; letter-spacing:-.01em}
 .cur-actions{display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; flex:1; justify-content:flex-end}
 .cur-actions input{flex:1; min-width:140px; max-width:230px}
@@ -202,7 +290,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .add-grid{display:grid; gap:.85rem; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); align-items:end}
 .fld{display:flex; flex-direction:column; gap:.45rem}
 .fld label{
-  font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.12em;
+  font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em;
   color:var(--muted); text-transform:uppercase;
 }
 .add-btn{align-self:end; justify-self:start}
@@ -227,8 +315,10 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .row .chk{
   appearance:none; -webkit-appearance:none;
   width:24px; height:24px; border-radius:8px; flex:none; cursor:pointer;
-  background:var(--bg); box-shadow:var(--press-sm); position:relative; transition:box-shadow .18s;
+  border:1px solid var(--field-border);
+  background:var(--bg); box-shadow:var(--press-sm); position:relative; transition:box-shadow .18s, border-color .18s;
 }
+.row .chk:checked{border-color:var(--accent)}
 .row .chk:checked{box-shadow:var(--raise-sm)}
 .row .chk:checked::after{
   content:""; position:absolute; left:8px; top:4px; width:6px; height:11px;
@@ -243,7 +333,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .r-cat{font-size:.72rem; color:var(--muted); margin-top:.1rem}
 .r-edit-wrap{display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; justify-content:flex-end}
 .r-qty,.r-price{
-  width:64px; text-align:right; border:none; border-radius:10px; padding:.42rem .55rem;
+  width:64px; text-align:right; border:1px solid var(--field-border); border-radius:10px; padding:.42rem .55rem;
   background:var(--bg); box-shadow:var(--press-sm);
   font-family:"JetBrains Mono",monospace; font-size:.85rem;
 }
@@ -264,7 +354,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .r-edit-form{flex:1; display:grid; gap:.7rem; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); align-items:end; min-width:0}
 .edit-fld{display:flex; flex-direction:column; gap:.35rem; min-width:0}
 .edit-fld.grow{grid-column:1/-1}
-.edit-fld label{font-family:"JetBrains Mono",monospace; font-size:.54rem; letter-spacing:.1em; color:var(--muted); text-transform:uppercase}
+.edit-fld label{font-family:"JetBrains Mono",monospace; font-size:.68rem; letter-spacing:.08em; color:var(--muted); text-transform:uppercase}
 .edit-fld input,.edit-fld select{width:100%; font-size:.88rem; padding:.55rem .7rem}
 .r-edit-actions{display:flex; gap:.5rem; align-self:center}
 .r-save,.r-cancel{
@@ -313,12 +403,12 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
   display:flex; flex-direction:column; gap:.3rem; border-radius:var(--r-md); padding:1.2rem 1.3rem;
   background:var(--bg); border:var(--hair); box-shadow:var(--raise-sm);
 }
-.kpi-label{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.1em; text-transform:uppercase}
+.kpi-label{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase}
 .kpi strong{font-family:"JetBrains Mono",monospace; font-weight:600; font-size:1.7rem}
-.kpi-green{background:linear-gradient(160deg,#edf7f0,#fff)} .kpi-green .kpi-label{color:var(--accent-deep)} .kpi-green strong{color:var(--accent-deep)}
-.kpi-amber{background:linear-gradient(160deg,#fbf2e6,#fff)} .kpi-amber .kpi-label{color:#b3742f} .kpi-amber strong{color:#c2702c}
-.kpi-blue{background:linear-gradient(160deg,#e9f3f9,#fff)} .kpi-blue .kpi-label{color:#3a6e96} .kpi-blue strong{color:#3a7fb0}
-.kpi-purple{background:linear-gradient(160deg,#f2ecf9,#fff)} .kpi-purple .kpi-label{color:#7a5aa6} .kpi-purple strong{color:#855bbf}
+/* Uniform, restrained KPI tiles — the mono number carries the weight, not colour. */
+.kpi-green,.kpi-amber,.kpi-blue,.kpi-purple{background:var(--bg)}
+.kpi-green .kpi-label,.kpi-amber .kpi-label,.kpi-blue .kpi-label,.kpi-purple .kpi-label{color:var(--muted)}
+.kpi-green strong,.kpi-amber strong,.kpi-blue strong,.kpi-purple strong{color:var(--text)}
 
 /* ---------- Suggestions ---------- */
 .sug-card h2{margin-bottom:1rem}
@@ -329,7 +419,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 }
 .sug .sug-ic{flex:none; display:flex}
 .sug.good{color:var(--accent-deep)}
-.sug.warn{color:#b3742f}
+.sug.warn{color:var(--warn)}
 
 /* ---------- Insights (suggestions + chart takeaways) ---------- */
 .insights-card{display:grid; grid-template-columns:1fr; gap:1.4rem}
@@ -341,7 +431,7 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 }
 .takeaway .tk-ic{flex:none; display:flex; margin-top:.05rem}
 .takeaway .tk-body{display:flex; flex-direction:column; gap:.1rem; min-width:0}
-.tk-label{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.tk-label{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
 .tk-text{font-size:.9rem; color:var(--text)}
 .muted-takeaway{color:var(--faint); font-style:italic; box-shadow:none}
 
@@ -354,9 +444,9 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 .hero-top{display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.1rem}
 .hero-meta{display:flex; flex-direction:column; gap:.15rem}
 .hero-month{font-size:1.5rem; color:var(--text); line-height:1.15}
-.hero-sub{font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:var(--muted)}
+.hero-sub{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.03em; color:var(--muted)}
 .hero-amount-wrap{display:flex; flex-direction:column; align-items:flex-end; gap:.1rem}
-.hero-amount-cap{font-family:"JetBrains Mono",monospace; font-size:.56rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.hero-amount-cap{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
 .hero-amount{font-size:2.3rem; font-weight:600; color:var(--accent-deep); line-height:1}
 .hero-body{display:grid; grid-template-columns:1fr; gap:1.1rem}
 .hero-chart-box{height:210px; min-width:0}
@@ -365,10 +455,10 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
   display:flex; flex-direction:column; gap:.25rem; padding:.85rem 1rem;
   border-radius:var(--r-sm); background:var(--bg); box-shadow:var(--press-sm);
 }
-.delta-cap{font-family:"JetBrains Mono",monospace; font-size:.58rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.delta-cap{font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
 .delta-val{font-family:"JetBrains Mono",monospace; font-size:1.35rem; font-weight:600; line-height:1}
 .delta-sub{font-family:"JetBrains Mono",monospace; font-size:.74rem; color:var(--muted)}
-.delta-card.up .delta-val{color:#c2702c}      /* spending more — caution */
+.delta-card.up .delta-val{color:var(--warn)}      /* spending more — caution */
 .delta-card.down .delta-val{color:var(--accent-deep)}  /* spending less — win */
 .delta-card.flat .delta-val,.delta-card.flat .delta-sub{color:var(--muted)}
 .hero-empty{
@@ -379,11 +469,17 @@ select{padding:.7rem .65rem; font-size:.9rem; cursor:pointer}
 /* ---------- Charts ---------- */
 .chart-grid{display:grid; gap:1.3rem; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .chart-grid .wide{grid-column:1/-1}
-.chart-note{margin:.15rem 0 .7rem; font-family:"JetBrains Mono",monospace; font-size:.62rem; letter-spacing:.04em; color:var(--muted)}
+.chart-note{margin:.15rem 0 .7rem; font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.03em; color:var(--muted)}
 .chart-box{height:230px; min-width:0}
 /* Canvases are sized manually (responsive:false); clamp them so a stale width
    attribute can never push its grid track wider than the column. */
 .chart-box canvas,.hero-chart-box canvas{display:block; max-width:100%}
+/* Graceful placeholder shown if the (now-local) chart library ever fails. */
+.chart-fallback{
+  height:100%; min-height:140px; display:flex; align-items:center; justify-content:center;
+  text-align:center; color:var(--faint);
+  font-family:"JetBrains Mono",monospace; font-size:.72rem; letter-spacing:.04em;
+}
 
 /* ---------- Desktop: pack the dashboard into one view ---------- */
 @media(min-width:1000px){
