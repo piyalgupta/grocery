@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801283695,
+  "updatedAt": 1782801310482,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -552,11 +552,11 @@
         {
           "id": "tpxan0n",
           "name": "Paneer",
-          "qty": 200,
+          "qty": 20,
           "unit": "g",
           "price": 60,
           "category": "Dairy",
-          "bought": true
+          "bought": false
         },
         {
           "id": "kqqk0tx",
@@ -728,11 +728,11 @@
       {
         "id": "tpxan0n",
         "name": "Paneer",
-        "qty": 200,
+        "qty": 20,
         "unit": "g",
         "price": 60,
         "category": "Dairy",
-        "bought": true
+        "bought": false
       },
       {
         "id": "kqqk0tx",
