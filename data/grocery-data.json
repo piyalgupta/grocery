@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782788133935,
+  "updatedAt": 1782799399977,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -24,7 +24,7 @@
     "Salt": {
       "unit": "kg",
       "category": "Spices & Oil",
-      "lastPrice": 25
+      "lastPrice": 28
     },
     "Cooking Oil": {
       "unit": "L",
@@ -44,7 +44,7 @@
     "Paneer": {
       "unit": "g",
       "category": "Dairy",
-      "lastPrice": 90
+      "lastPrice": 60
     },
     "Butter": {
       "unit": "g",
@@ -327,9 +327,45 @@
           "price": 165,
           "category": "Household",
           "bought": false
+        },
+        {
+          "id": "gq062s4",
+          "name": "Salt",
+          "qty": 1,
+          "unit": "kg",
+          "price": 28,
+          "category": "Spices & Oil",
+          "bought": true
+        },
+        {
+          "id": "ruch47g",
+          "name": "Sugar",
+          "qty": 1,
+          "unit": "kg",
+          "price": 45,
+          "category": "Grains & Pulses",
+          "bought": true
+        },
+        {
+          "id": "tpxan0n",
+          "name": "Paneer",
+          "qty": 200,
+          "unit": "g",
+          "price": 60,
+          "category": "Dairy",
+          "bought": true
+        },
+        {
+          "id": "kqqk0tx",
+          "name": "Biscuits",
+          "qty": 1,
+          "unit": "packet",
+          "price": 30,
+          "category": "Snacks",
+          "bought": true
         }
       ],
-      "savedAt": "2026-06-30T02:55:33.248Z"
+      "savedAt": "2026-06-30T06:03:19.189Z"
     }
   },
   "gp_months": {
@@ -433,6 +469,42 @@
           "price": 165,
           "category": "Household",
           "bought": false
+        },
+        {
+          "id": "gq062s4",
+          "name": "Salt",
+          "qty": 1,
+          "unit": "kg",
+          "price": 28,
+          "category": "Spices & Oil",
+          "bought": true
+        },
+        {
+          "id": "ruch47g",
+          "name": "Sugar",
+          "qty": 1,
+          "unit": "kg",
+          "price": 45,
+          "category": "Grains & Pulses",
+          "bought": true
+        },
+        {
+          "id": "tpxan0n",
+          "name": "Paneer",
+          "qty": 200,
+          "unit": "g",
+          "price": 60,
+          "category": "Dairy",
+          "bought": true
+        },
+        {
+          "id": "kqqk0tx",
+          "name": "Biscuits",
+          "qty": 1,
+          "unit": "packet",
+          "price": 30,
+          "category": "Snacks",
+          "bought": true
         }
       ]
     },
@@ -537,6 +609,42 @@
         "price": 165,
         "category": "Household",
         "bought": false
+      },
+      {
+        "id": "gq062s4",
+        "name": "Salt",
+        "qty": 1,
+        "unit": "kg",
+        "price": 28,
+        "category": "Spices & Oil",
+        "bought": true
+      },
+      {
+        "id": "ruch47g",
+        "name": "Sugar",
+        "qty": 1,
+        "unit": "kg",
+        "price": 45,
+        "category": "Grains & Pulses",
+        "bought": true
+      },
+      {
+        "id": "tpxan0n",
+        "name": "Paneer",
+        "qty": 200,
+        "unit": "g",
+        "price": 60,
+        "category": "Dairy",
+        "bought": true
+      },
+      {
+        "id": "kqqk0tx",
+        "name": "Biscuits",
+        "qty": 1,
+        "unit": "packet",
+        "price": 30,
+        "category": "Snacks",
+        "bought": true
       }
     ]
   }
