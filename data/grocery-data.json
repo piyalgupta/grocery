@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801059136,
+  "updatedAt": 1782801075362,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -391,7 +391,7 @@
           "unit": "bottle",
           "price": 150.35,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         },
         {
           "id": "qrpyedq",
@@ -400,7 +400,7 @@
           "unit": "bottle",
           "price": 117,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         },
         {
           "id": "gidkf0j",
@@ -409,10 +409,10 @@
           "unit": "g",
           "price": 134,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         }
       ],
-      "savedAt": "2026-06-30T06:30:29.282Z"
+      "savedAt": "2026-06-30T06:31:14.613Z"
     }
   },
   "gp_months": {
@@ -560,7 +560,7 @@
           "unit": "bottle",
           "price": 150.35,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         },
         {
           "id": "qrpyedq",
@@ -569,7 +569,7 @@
           "unit": "bottle",
           "price": 117,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         },
         {
           "id": "gidkf0j",
@@ -578,7 +578,7 @@
           "unit": "g",
           "price": 134,
           "category": "Personal Care",
-          "bought": false
+          "bought": true
         }
       ]
     },
@@ -727,7 +727,7 @@
         "unit": "bottle",
         "price": 150.35,
         "category": "Personal Care",
-        "bought": false
+        "bought": true
       },
       {
         "id": "qrpyedq",
@@ -736,7 +736,7 @@
         "unit": "bottle",
         "price": 117,
         "category": "Personal Care",
-        "bought": false
+        "bought": true
       },
       {
         "id": "gidkf0j",
@@ -745,7 +745,7 @@
         "unit": "g",
         "price": 134,
         "category": "Personal Care",
-        "bought": false
+        "bought": true
       }
     ]
   }
