@@ -5,11 +5,13 @@ consumption, get savings suggestions, and export a PDF to send to your store.
 
 **No build step, no server** — just open `index.html` (or host it anywhere static).
 
-A **skeuomorphic-colourful** UI with Scandinavian minimalism — clean white
-cards lifted off a soft warm-grey "room" with realistic drop shadows and a
-crisp top highlight, bright produce accents used sparingly (a colourful header
-accent, gradient logo, tinted KPI tiles), Newsreader + JetBrains Mono type,
-and crisp inline-SVG line icons.
+A **skeuomorphic, single-accent** UI with Scandinavian minimalism — clean
+cards lifted off a soft "room" with realistic drop shadows and a crisp top
+highlight, one calm leaf-green accent (produce hues kept only where they carry
+meaning, e.g. category dots), self-hosted Newsreader + JetBrains Mono type,
+crisp inline-SVG line icons, labelled navigation, a bespoke month stepper, and
+a full **dark mode**. AA-legible throughout, and resilient offline — the charts
+and PDF library are vendored locally, so nothing depends on a CDN.
 
 ## Features
 - **Monthly list builder** — add items with quantity, unit, price & category.
@@ -52,8 +54,10 @@ and crisp inline-SVG line icons.
 
 ## Tech
 Vanilla HTML/CSS/JS (no framework, no build) · inline SVG icons ·
-[Chart.js](https://www.chartjs.org/) ·
-[jsPDF](https://github.com/parallax/jsPDF) + autotable · `localStorage` for data.
+self-hosted fonts (`assets/fonts/`) · vendored, CDN-free
+[Chart.js](https://www.chartjs.org/) and
+[jsPDF](https://github.com/parallax/jsPDF) + autotable (`vendor/`) ·
+`localStorage` for data · light **and** dark themes via `prefers-color-scheme`.
 
 ## Architecture
 Still **zero build** — the code is split into small, single-responsibility

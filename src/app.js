@@ -124,12 +124,17 @@
     V.toast(name + ' updated');
   }
 
-  $('#monthInput').addEventListener('change', (e) => {
-    store.switchMonth(e.target.value);
+  function goToMonth(month) {
+    store.switchMonth(month);
     editingId = null;
     renderList();
-    V.toast(GP.utils.monthLong(e.target.value));
-  });
+    V.toast(GP.utils.monthLong(month));
+  }
+  // Direct pick via the (visually hidden) native control, layered over the label.
+  $('#monthInput').addEventListener('change', (e) => goToMonth(e.target.value));
+  // Custom ‹ / › steppers move one month at a time.
+  $('#monthPrev').addEventListener('click', () => goToMonth(GP.utils.monthAdd(store.current.month, -1)));
+  $('#monthNext').addEventListener('click', () => goToMonth(GP.utils.monthAdd(store.current.month, 1)));
   $('#storeInput').addEventListener('input', (e) => { store.current.store = e.target.value; store.persistCurrent(); });
 
   /* ---- save / load ---- */
@@ -203,6 +208,7 @@
   /* ---- PDF ---- */
   $('#btnPdf').addEventListener('click', () => {
     if (!store.current.items.length) { V.toast('Add items first'); return; }
+    if (!GP.pdf.ready()) { V.toast('PDF export unavailable offline'); return; }
     GP.pdf.exportList(store.current);
     V.toast('PDF downloaded');
   });

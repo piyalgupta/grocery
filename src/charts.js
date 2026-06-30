@@ -14,12 +14,13 @@
   /** Stable accent colour for a category (shared across every chart). */
   const catColor = (cat) => (CATMETA[cat] || [, '#8a93a0'])[1];
 
-  /** Apply the global mono-font / muted-colour theme once. */
+  /** Apply the global mono-font / muted-colour theme once (theme-aware). */
   function applyDefaults() {
     if (applyDefaults._done || !window.Chart) return;
+    const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     Chart.defaults.font.family = "'JetBrains Mono',monospace";
     Chart.defaults.font.size = 11;
-    Chart.defaults.color = '#8c95a3';
+    Chart.defaults.color = dark ? '#9db0a4' : '#8c95a3';
     applyDefaults._done = true;
   }
 
@@ -36,11 +37,30 @@
     if (registry[id]) registry[id].destroy();
   }
 
-  /** Size a canvas to fill its parent box, then (re)create the chart. */
+  /** Show a quiet placeholder when Chart.js isn't available, so the rest of the
+      dashboard (KPIs, deltas, text insights) still renders instead of throwing. */
+  function showFallback(el) {
+    const box = el.parentElement;
+    el.style.display = 'none';
+    if (!box.querySelector('.chart-fallback')) {
+      const note = document.createElement('div');
+      note.className = 'chart-fallback';
+      note.textContent = 'Chart unavailable offline';
+      box.appendChild(note);
+    }
+  }
+
+  /** Size a canvas to fill its parent box, then (re)create the chart.
+      Resilient: if Chart.js failed to load, degrade gracefully and never throw. */
   function render(id, config) {
-    applyDefaults();
     const el = $('#' + id);
     if (!el || !el.parentElement) return;
+    if (!window.Chart) { showFallback(el); return; }
+    applyDefaults();
+    // A chart became available again — clear any earlier offline placeholder.
+    el.style.display = '';
+    const note = el.parentElement.querySelector('.chart-fallback');
+    if (note) note.remove();
     const r = el.parentElement.getBoundingClientRect();
     el.width = Math.max(r.width, 200);
     el.height = Math.max(r.height, 160);

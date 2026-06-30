@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#5a9c6e" />
+<meta name="theme-color" content="#e9ece7" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f1c17" media="(prefers-color-scheme: dark)" />
 <title>Grocery Planner — plan, track & save on monthly groceries</title>
 <meta name="description" content="Build monthly grocery lists with a smart auto-filling catalog, then track spend, buying habits and price trends on one dashboard. Export a PDF order sheet. No sign-up — data stays in your browser." />
 
@@ -25,10 +26,10 @@
 <meta name="twitter:description" content="Plan monthly grocery lists, track spend & buying habits, spot price trends, and export a PDF — all in your browser." />
 <meta name="twitter:image" content="og-image.png" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<!-- Self-hosted type — the brand voice never depends on a third-party request -->
+<link rel="preload" href="assets/fonts/newsreader-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/jetbrains-mono-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="assets/fonts.css" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -45,15 +46,20 @@
       </div>
     </div>
     <div class="month-pick">
-      <span class="cal-ic" id="calIc" aria-hidden="true"></span>
-      <input type="month" id="monthInput" aria-label="Month" />
+      <button class="month-nav" id="monthPrev" type="button" aria-label="Previous month"><span class="mn-ic" id="monthPrevIc"></span></button>
+      <div class="month-display">
+        <span class="cal-ic" id="calIc" aria-hidden="true"></span>
+        <span class="month-text" id="monthLabel">Month</span>
+        <input type="month" id="monthInput" class="month-native" aria-label="Pick month" />
+      </div>
+      <button class="month-nav" id="monthNext" type="button" aria-label="Next month"><span class="mn-ic" id="monthNextIc"></span></button>
     </div>
   </header>
 
   <nav class="tabs" role="tablist">
-    <button class="tab active" data-view="list" id="tabList" role="tab" title="Shopping list" aria-label="List"></button>
-    <button class="tab" data-view="dashboard" id="tabDash" role="tab" title="Insights" aria-label="Insights"></button>
-    <button class="tab" data-view="saved" id="tabSaved" role="tab" title="Saved lists" aria-label="Saved"></button>
+    <button class="tab active" data-view="list" id="tabList" role="tab" aria-label="List"><span class="tab-ic"></span><span class="tab-label">List</span></button>
+    <button class="tab" data-view="dashboard" id="tabDash" role="tab" aria-label="Insights"><span class="tab-ic"></span><span class="tab-label">Insights</span></button>
+    <button class="tab" data-view="saved" id="tabSaved" role="tab" aria-label="Saved"><span class="tab-ic"></span><span class="tab-label">Saved</span></button>
   </nav>
 
   <main class="container">
@@ -66,9 +72,9 @@
         </div>
         <div class="cur-actions">
           <input type="text" id="storeInput" placeholder="Store name" />
-          <button class="btn-icon glass" id="btnSave" title="Save list" aria-label="Save"></button>
-          <button class="btn-icon glass" id="btnSaveAs" title="Save as new list" aria-label="Save as"></button>
-          <button class="btn-icon primary" id="btnPdf" title="Export as PDF" aria-label="Export PDF"></button>
+          <button class="btn ghost" id="btnSave" type="button" aria-label="Save list"><span class="btn-ic"></span>Save</button>
+          <button class="btn ghost" id="btnSaveAs" type="button" aria-label="Save as new list"><span class="btn-ic"></span>Duplicate</button>
+          <button class="btn primary" id="btnPdf" type="button" aria-label="Export as PDF"><span class="btn-ic"></span>PDF</button>
         </div>
       </div>
 
@@ -96,7 +102,7 @@
             <label>Category</label>
             <select id="itemCat"></select>
           </div>
-          <button class="btn-icon primary add-btn" id="btnAdd" title="Add item" aria-label="Add item"></button>
+          <button class="btn primary add-btn" id="btnAdd" type="button" aria-label="Add item"><span class="btn-ic"></span>Add</button>
         </div>
       </div>
 
@@ -177,7 +183,7 @@
       <div class="card">
         <div class="list-head">
           <h2 class="serif">Saved lists</h2>
-          <button class="btn-icon primary" id="btnNew" title="New list" aria-label="New list"></button>
+          <button class="btn primary" id="btnNew" type="button" aria-label="New list"><span class="btn-ic"></span>New list</button>
         </div>
         <div id="savedRows" class="rows"></div>
         <div id="emptySaved" class="empty">No saved lists yet — build one and save it.</div>
@@ -188,9 +194,10 @@
 
 <div id="toast" class="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<!-- Vendored locally so the dashboard & PDF never depend on a CDN being reachable -->
+<script src="vendor/chart.umd.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/jspdf.plugin.autotable.min.js"></script>
 
 <!-- App modules — plain scripts (no build step), loaded in dependency order -->
 <script src="src/constants.js"></script>

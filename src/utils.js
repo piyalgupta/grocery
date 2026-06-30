@@ -45,5 +45,12 @@
     return (MONTHS_LONG[(+mo) - 1] || m) + ' ' + y;
   };
 
-  GP.utils = { $, read, write, money, uid, ucFirst, esc, monthLabel, monthLong };
+  /** Step a 'YYYY-MM' string by `delta` months (handles year roll-over). */
+  const monthAdd = (m, delta) => {
+    const [y, mo] = String(m).split('-').map(Number);
+    const d = new Date(y, (mo - 1) + delta, 1);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  };
+
+  GP.utils = { $, read, write, money, uid, ucFirst, esc, monthLabel, monthLong, monthAdd };
 })(window.GP = window.GP || {});
