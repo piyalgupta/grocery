@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801172988,
+  "updatedAt": 1782801232697,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -252,7 +252,7 @@
       "lastPrice": 134
     },
     "Kissan Mixed Fruit Jam": {
-      "unit": "g",
+      "unit": "bottle",
       "category": "Snacks",
       "lastPrice": 199
     }
@@ -419,14 +419,14 @@
         {
           "id": "ffjrkvj",
           "name": "Kissan Mixed Fruit Jam",
-          "qty": 500,
-          "unit": "g",
+          "qty": 1,
+          "unit": "bottle",
           "price": 199,
           "category": "Snacks",
           "bought": false
         }
       ],
-      "savedAt": "2026-06-30T06:32:51.963Z"
+      "savedAt": "2026-06-30T06:33:51.757Z"
     }
   },
   "gp_months": {
@@ -597,8 +597,8 @@
         {
           "id": "ffjrkvj",
           "name": "Kissan Mixed Fruit Jam",
-          "qty": 500,
-          "unit": "g",
+          "qty": 1,
+          "unit": "bottle",
           "price": 199,
           "category": "Snacks",
           "bought": false
@@ -773,8 +773,8 @@
       {
         "id": "ffjrkvj",
         "name": "Kissan Mixed Fruit Jam",
-        "qty": 500,
-        "unit": "g",
+        "qty": 1,
+        "unit": "bottle",
         "price": 199,
         "category": "Snacks",
         "bought": false
