@@ -1,5 +1,5 @@
 {
-  "updatedAt": 1782801333823,
+  "updatedAt": 1782918289110,
   "gp_catalog": {
     "Rice": {
       "unit": "kg",
@@ -32,9 +32,9 @@
       "lastPrice": 150
     },
     "Milk": {
-      "unit": "L",
+      "unit": "packet",
       "category": "Dairy",
-      "lastPrice": 60
+      "lastPrice": 30
     },
     "Curd": {
       "unit": "kg",
@@ -424,9 +424,18 @@
           "price": 199,
           "category": "Snacks",
           "bought": true
+        },
+        {
+          "id": "6thw3lq",
+          "name": "Milk",
+          "qty": 1,
+          "unit": "packet",
+          "price": 30,
+          "category": "Dairy",
+          "bought": true
         }
       ],
-      "savedAt": "2026-06-30T06:35:33.186Z"
+      "savedAt": "2026-07-01T15:04:47.934Z"
     }
   },
   "gp_months": {
@@ -601,6 +610,15 @@
           "unit": "bottle",
           "price": 199,
           "category": "Snacks",
+          "bought": true
+        },
+        {
+          "id": "6thw3lq",
+          "name": "Milk",
+          "qty": 1,
+          "unit": "packet",
+          "price": 30,
+          "category": "Dairy",
           "bought": true
         }
       ]
@@ -777,6 +795,15 @@
         "unit": "bottle",
         "price": 199,
         "category": "Snacks",
+        "bought": true
+      },
+      {
+        "id": "6thw3lq",
+        "name": "Milk",
+        "qty": 1,
+        "unit": "packet",
+        "price": 30,
+        "category": "Dairy",
         "bought": true
       }
     ]
